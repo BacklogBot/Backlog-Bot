@@ -31,3 +31,4 @@ async def print(ctx, *args):
 		response = response + " " + arg
 
 	await ctx.channel.send(response)
+
