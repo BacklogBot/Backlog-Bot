@@ -1,0 +1,20 @@
+/addGame - eneters the user into a dialog chain they are prompted for each aspect of game so it can be cataloged
+
+/delGamme {title} - deletes games with matching title from the backlog 
+
+/help - lists all commands and a brief summary of their functionality 
+
+/help {command} - gives a detailed summary of the functionality of the given command  
+
+/list {num = 20} - lists the specified number of games ranked by the algorithm, defaulted to 20
+
+/listAll - list every game in the users backlog period
+
+/edit {game} - provides game info and prompts user for what they want to edit
+
+/fq - force quit from any command dialogue chain  
+
+
+
+
+
