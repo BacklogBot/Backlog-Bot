@@ -1,10 +1,15 @@
 import game
 
 class Backlog:
-	def __init__(self, username)
+	def __init__(self, username, genres = set(), avgTime = 0):
+		#basic catalog attributes
 		self.username = username #discord username
 		self.catalog = [] #list of games
 		self.length = 0
+
+		#client preferences
+		self.userGenres = genres
+		self.avgAvailableTime = avgTime
 
 	def __str__(self):
 		formattedString = ""
