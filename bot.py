@@ -3,7 +3,7 @@ import os
 
 import discord
 import random
-import game
+from game import Game
 from backlog import Backlog
 
 # import interactions
@@ -117,32 +117,101 @@ async def newBacklog(ctx, *args):
     #confirm backlog creation 
     return await ctx.send("{}'s backlog created!".format(username))
 
-
-
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
-    # username = ctx.message.author.name #retrieve the user name of whoever issued the commmand 
+    username = ctx.message.author.name #retrieve the user name of whoever issued the commmand 
 
-    # if username in backlogs:
-    #     backlogs[username].append()
-    # else:
-    #     ctx.send('I am sorry {username}, it seems that you have not yet created a backlog, if you would\
-    #             like to do so, simply type "/newBacklog in the chat. For further help type /help to get\
-    #             a list of possible commands, or for a specific command type /help followed by said command.')
+    if username not in backlogs:
+        return await ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
+                            to do so, simply type "/newBacklog in the chat. For further help type /help to get \
+                            a list of possible commands, or for a specific command type /help followed by said \
+                            command.'.format(username))
 
-    return await ctx.send("/addGame not implemented")
+    #check functions (will need further modification for error checking)
+
+    def checkStr(msg): #basic check function, just ensures that the users are the same
+        if(int(msg.author.id) == int(ctx.author.id)): #verify that it is the same user
+            return True
+        return False
+
+    #check function for the average playtime 
+    def checkDigit(msg): #check function, ensure that the reply is a number 
+        if(int(msg.author.id) == int(ctx.author.id)): #verify that it is the same user 
+            if(msg.content.isdigit()): #verify that the msg is a number
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    #prompt the user for the game's name
+    await ctx.send("Please enter the game's name.")
+    try:
+        msg1 = await bot.wait_for("message", check=checkStr, timeout= 5 * 60) #timeout 5 min
+    except asyncio.TimeoutError:
+        return await ctx.send('{} request timeout....'.format(username)) 
+
+    #prompt the user for the the game's genres
+    await ctx.send("Please enter the game's genres seperated by spaces.")
+    try:
+        msg2 = await bot.wait_for("message", check=checkStr, timeout= 5 * 60) #timeout 5 min
+    except asyncio.TimeoutError:
+        return await ctx.send('{} request timeout....'.format(username)) 
+
+    #prompt the user for the estimated time of the game 
+    await ctx.send("Please enter how long the games take on average in hours.")
+    try:
+        msg3 = await bot.wait_for("message", check=checkDigit, timeout= 5 * 60) #timeout 5 min
+    except asyncio.TimeoutError:
+        return await ctx.send('{} request timeout....'.format(username)) 
+
+    #prompt the user for the amount of time played
+    await ctx.send("Please enter how long you have already played this game in hours, entering 0 if you have yet to play it.")
+    try:
+        msg4 = await bot.wait_for("message", check=checkDigit, timeout= 5 * 60) #timeout 5 min
+    except asyncio.TimeoutError:
+        return await ctx.send('{} request timeout....'.format(username)) 
+
+    #prompt the user for the their current interest in the game 
+    await ctx.send("Please enter your current interest in the game, out of 10.")
+    try:
+        msg5 = await bot.wait_for("message", check=checkDigit, timeout= 5 * 60) #timeout 5 min
+    except asyncio.TimeoutError:
+        return await ctx.send('{} request timeout....'.format(username)) 
+
+    name = msg1.content
+    genres = set(msg2.content.split())
+    avgTime = int(msg3.content)
+    timePlayed = int(msg4.content)
+    interest = int(msg5.content)
+
+    backlogs[username].addGame(Game(name, interest, avgTime, genres, timePlayed))
 
 @bot.command(name='delGame')
-async def delGame(ctx, *args):
-    return await ctx.send("/delGame not implemented.")
+async def delGame(ctx, name):
+    username = ctx.message.author.name 
+
+    if(backlogs[username].delGame(name)): #if backlog could not find said game to remove
+        return await ctx.send("{} was not found in your backlog, {}".format(name, username))
+    else:
+        return await ctx.send("{} was removed from your backlog, {}".format(name, username))
 
 @bot.command(name='list')
 async def list(ctx, *args):
+    #list games in alphabetical order instead of via score 
+
     return await ctx.send("/list not implemented.")
 
 @bot.command(name='suggestGames')
 async def suggestGames(ctx, *args):
-    return await ctx.send("/suggestGames not implemented.")
+    #list games in order of their scores, higher scores first 
+    username = ctx.message.author.name 
+
+    if username not in backlogs: #tempeory implementation with no arguments 
+        await ctx.send("You have yet to create a backlog, {}".format(username))
+    else:
+        print(backlogs[username])
+        return await ctx.send(str(backlogs[username]))
 
 @bot.command(name='edit')
 async def edit(ctx, *args):   
