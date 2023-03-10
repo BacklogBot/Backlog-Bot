@@ -18,7 +18,6 @@ class Backlog:
 			name = game.getName()
 			score = game.gradeGame()
 
-			right_padding = ('{: <5}'.format(string))
 			formattedString += '- SCORE: {: <3} ... GAME: {}\n'.format(score, name)
 
 		return formattedString
@@ -44,6 +43,10 @@ class Backlog:
 	#adds a game object to the catalog
 	def addGame(self, game):
 		name = game.getName()
+
+		if(self.length == 0):
+			self.catalog.append(game)
+			return 0
 
 		if(self.index(name) == -1): #there is no matching title in the catalog
 			for index in range(self.length):
