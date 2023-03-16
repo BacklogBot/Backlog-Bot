@@ -1,7 +1,7 @@
 # bot.py
 import os
 import discord #pip install discord
-from dotenv import load_dotenv
+from dotenv import load_dotenv #pip install python-env
 
 class MyClient(discord.Client):
     async def on_ready(self):
