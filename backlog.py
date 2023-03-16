@@ -1,7 +1,7 @@
 import game
 
 class Backlog:
-	def __init__(self, username)
+	def __init__(self, username):
 		self.username = username #discord username
 		self.catalog = [] #list of games
 		self.length = 0
