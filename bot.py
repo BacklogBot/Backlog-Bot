@@ -42,7 +42,7 @@ async def on_member_join(member):
     )
 
 # @bot.event
-# async def on_message(message): 
+# async def on_message(message):
 #     if message.author == bot.user: #this is to prevent the bot from responding to itself
 #         return
 
@@ -61,7 +61,7 @@ async def on_error(event, *args, **kwargs):
         else:
             raise
 
-#COMMANDS-------------------------------------------------------------------------------------------------- 
+#COMMANDS--------------------------------------------------------------------------------------------------
 
 @bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
 async def helpBacklog(ctx, *args):
@@ -71,7 +71,7 @@ async def helpBacklog(ctx, *args):
 async def newBacklog(ctx, *args):
     cmd = NewBacklog(bot, ctx)
     return await cmd.execute(backlogs)
-   
+
 
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
@@ -93,7 +93,7 @@ async def suggestGames(ctx, *args):
     return await cmd.execute(backlogs)
 
 @bot.command(name='edit')
-async def edit(ctx, *args):   
+async def edit(ctx, *args):
     return await ctx.send("/edit not implemented.")
 
 @bot.command(name='fq')

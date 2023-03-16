@@ -28,7 +28,7 @@ class Game:
 
     #adds genre(s) to the game
     def addGenres(self, genres):
-        for genre in geners: #changed generes to a set to increase efficiency
+        for genre in genres: #changed generes to a set to increase efficiency
             self.genres.add(genre)
         return 0
 
@@ -60,7 +60,7 @@ class Game:
         return self.genres
 
     #returns timePlayed
-    def getTimePlayde(self):
+    def getTimePlayed(self):
         return self.timePlayed
 
     #returns a grade of the game based on intersts and genres

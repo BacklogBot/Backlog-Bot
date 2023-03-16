@@ -22,12 +22,12 @@ class Backlog:
 
 		return formattedString
 
-	#adds the specified genre to the backlog preferences 
+	#adds the specified genre to the backlog preferences
 	def addGenre(genre):
 		self.genres.add(genre)
 		return 0
 
-	#removes the specified genre from the backlog preferences 
+	#removes the specified genre from the backlog preferences
 	def delGenre(genre):
 		self.genres.remove(genre)
 
@@ -37,7 +37,7 @@ class Backlog:
 			game = self.catalog[index]
 
 			if(game.getName() == name):
-				return index 
+				return index
 		return -1 #return -1 if the given title is not in the catalog
 
 	#adds a game object to the catalog
@@ -54,13 +54,13 @@ class Backlog:
 
 				if(existingGame.gradeGame() > game.gradeGame()):
 					self.catalog.insert(index, game)
-					
+
 			self.length += 1
 			return 0
-		else: #there is a mathcing title in the catlog 
+		else: #there is a mathcing title in the catlog
 			return 1
 
-	#takes a game's name, finds the matching game in the catalog, and removes it 
+	#takes a game's name, finds the matching game in the catalog, and removes it
 	def delGame(self, name):
 		for index in range(self.length):
 			game = self.catalog[index]
@@ -68,15 +68,15 @@ class Backlog:
 			if(game.getName() == name):
 				self.catalog.pop(index)
 				self.length -= 1
-				return 0 #return success 0 if there the game exists in the catlog and is removed 
+				return 0 #return success 0 if there the game exists in the catlog and is removed
 
 		return 1 #return failure 1 if there is no such game in the catalog
 
-	#returns the username of whoever the backlog belondgs to 
+	#returns the username of whoever the backlog belondgs to
 	def getUser(self):
 		return self.username
 
-	#given a game's name, return the game object from the catalog, if it is not there then return None 
+	#given a game's name, return the game object from the catalog, if it is not there then return None
 	def getGame(self, name):
 		index = self.index(name)
 
@@ -88,6 +88,3 @@ class Backlog:
 	#returns the current length of the catalog
 	def getLength(self):
 		return self.length
-
-
-
