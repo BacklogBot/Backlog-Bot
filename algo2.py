@@ -2,7 +2,7 @@ import game
 
 def printList(l):
     for i in range(len(l)):
-        print(l[i].getName() + " with " + str(l[i].getInterest()) ) 
+        print(l[i].getName() + " with a score of " + str(l[i].getInterest()) ) 
 
 def get_pivot(input_list, starting, ending):  #uses median of three method!
     middle = (starting+ending)//2  #get the average of the starting and ending indices
@@ -31,12 +31,22 @@ def compare(game1, game2):
     elif game1.getInterest() < game2.getInterest():
         return -1    
     else:
-        if game1.getTimePlayde() > game2.getTimePlayde():
+        if game1.getTimePlayed() > game2.getTimePlayed():
             return 1
-        elif game1.getTimePlayde() < game2.getTimePlayde():
+        elif game1.getTimePlayed() < game2.getTimePlayed():
             return -1
         else:
             return 0       
+
+def compareActual(game1, game2):
+    '''
+    only consider interest for interim release
+    '''
+    if game1.getInterest() > game2.getInterest():
+        return 1
+    elif game1.getInterest() < game2.getInterest():
+        return -1 
+    else: return 0      
 
 def partition(input_list, starting, ending):
     pivot_index = get_pivot(input_list, starting, ending) #get the item we'll compare everything else to
@@ -48,7 +58,7 @@ def partition(input_list, starting, ending):
 
     border = starting
     for i in range(starting, ending+1): 
-        if ( compare(input_list[i], input_list[starting]) == 1 ):
+        if ( compareActual(input_list[i], input_list[starting]) == 1 ):
             border += 1 
 
             #swap the current item with the border item
@@ -72,7 +82,7 @@ def quicksort(input_list, starting, ending):
         quicksort(input_list, pivot+1, ending)  #sort all items to the right of pivot
 
 def sortGames(input_list):  #uses quicksort to sort games passed in the list l
-    quicksort(input_list, 0, len(l)-1)
+    quicksort(input_list, 0, len(input_list)-1)
 
 if __name__ == "__main__":
     g1 = game.Game("Dishonored", 10, 10, ["Stealth", "RPG"], 10)

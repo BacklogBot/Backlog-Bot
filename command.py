@@ -3,6 +3,7 @@ import os
 import random
 import discord
 import asyncio
+import algo2
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -158,7 +159,14 @@ class SuggestGames(Command):
 		if self.username not in backlogs: #temporary implementation with no arguments 
 			await self.ctx.send("You have yet to create a backlog, {}".format(self.username))
 		else:
-			return await self.ctx.send(str(backlogs[self.username]))
+			l1 = backlogs[self.username].catalog
+			l2 = list(l1)  #make a shallow copy of the list. so by the end of this code block, l2 should be unchanged
+			algo2.sortGames(l1)
+			resp = "These are the games in your backlog that I think you should play, according to the preferences you have provided so far.\nnote: the higher the score, the more you'll enjoy it!\n\n"
+			#algo2.printList(l1)  print the list of games to the terminal
+			for game in l1:
+				resp += (game.getName() + " with a score of " + str(game.getInterest()) + "\n")
+			return await self.ctx.send(resp)
 
 
 # class helpBacklog():
