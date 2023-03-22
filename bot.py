@@ -1,8 +1,8 @@
 # bot.py
 import os
-import discord
+import discord #pip install discord
 import command
-from dotenv import load_dotenv
+from dotenv import load_dotenv #pip install python-env
 from discord.ext import commands
 
 class MyClient(discord.Client):

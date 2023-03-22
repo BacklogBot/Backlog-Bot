@@ -139,7 +139,7 @@ class DelGame():
 		else:
 			return await self.ctx.send("{} was removed from your backlog, {}".format(name, username))
 
-# class EditGame():
+# class EditGame(): #Hayden
 # 	def __init__(self):
 
 # class EditBacklog():
