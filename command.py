@@ -81,7 +81,7 @@ class NewBacklog(Command):
 	        return await ctx.send('You already have an existing backlog.') 
 
 	    #prompt the user for their list of prefered genres
-	    await self.ctx.send("Please enter a list of your prefered genres.")
+	    await self.ctx.send("Please enter a list of your prefered genres, seperated by spaces.")
 	    genresMsg = await self.waitForResponse(self.checkUser)
 
 	    #prompt the user for average amount of available playtime in a day
@@ -143,8 +143,39 @@ class DelGame():
 # class EditGame(): #Hayden
 # 	def __init__(self):
 
-# class EditBacklog():
-# 	def __init__(self):
+class EditBacklog(Command):
+	async def execute(self, backlogs):
+		if self.username not in backlogs: 
+			await self.ctx.send("You have yet to create a backlog, {}".format(self.username))
+		else:			
+			await self.ctx.send("If you wish to edit your backlog's preferred genres, enter 1.\nIf you wish to edit your average available playing time, enter 2.")			
+			editMsg = await self.waitForResponse(self.checkUser)
+			flag = 1
+
+			while flag==1: #while they are entering *something*
+				if editMsg.content == "1":
+					#edit genre
+					await self.ctx.send("Please enter a list of your prefered genres, seperated by spaces.")
+					genresMsg = await self.waitForResponse(self.checkUser)					
+					
+					new_genres = set(genresMsg.content.split())
+					backlogs[self.username].genres = new_genres
+					flag = 0
+
+				elif editMsg.content == "2":
+					#edit time
+					await self.ctx.send("Please enter your average amount of available playtime in the format of hours:minutes.")
+					timeMsg = await self.waitForResponse(self.checkTimeFormat)	
+
+					avgTime = extractTime(timeMsg.content)
+					backlogs[self.username].avgTime = avgTime
+					flag = 0
+				else:
+					await self.ctx.send("Invalid input. Try again.")
+					await self.ctx.send("If you wish to edit your backlog's preferred genres, enter 1.\nIf you wish to edit your average available playing time, enter 2.")			
+					editMsg = await self.waitForResponse(self.checkUser)		
+
+		return await self.ctx.send("Backlog Updated!")  
 
 class List(Command):
 	async def execute(self, backlogs):

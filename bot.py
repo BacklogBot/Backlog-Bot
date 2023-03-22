@@ -18,6 +18,10 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
+bot = commands.Bot(command_prefix='/', intents = discord.Intents.all())
+
+backlogs = dict() #dictionary which uses the member name as a key and the backglog as a value
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
@@ -93,9 +97,10 @@ async def suggestGames(ctx, *args):
     cmd = command.SuggestGames(bot, ctx)
     return await cmd.execute(backlogs)
 
-@bot.command(name='edit')
+@bot.command(name='editBacklog')
 async def edit(ctx, *args):
-    return await ctx.send("/edit not implemented.")
+    cmd = command.EditBacklog(bot, ctx)
+    return await cmd.execute(backlogs)
 
 @bot.command(name='fq')
 async def fq(ctx, *args):
