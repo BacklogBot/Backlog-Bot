@@ -12,10 +12,12 @@ from backlog import Backlog
 from abc import ABC, abstractmethod #for abstract classes
 
 def extractTime(timeStr):
-	#time string take the format of hours:minutes
-
+	#expected timeStr format = hours:minutes
 	time = timeStr.split(':')
-	return int(time[0]) + 60/int(time[1])
+	if len(time) == 1: #we only have hours to deal with
+		return int(time[0])
+	else:
+		return int(time[0]) + 60/int(time[1])
 
 
 class Command(ABC):
@@ -82,10 +84,10 @@ class NewBacklog(Command):
 	    genresMsg = await self.waitForResponse(self.checkUser)
 
 	    #prompt the user for average amount of available playtime in a day
-	    await self.ctx.send("Please enter a enter your average amount of available playtime.")
+	    await self.ctx.send("Please enter your average amount of available playtime in the format of hours:minutes.")
 	    timeMsg = await self.waitForResponse(self.checkTimeFormat)
 
-	    #add the backlog to the backglogs dictionary
+	    #add the backlog to the backlogs dictionary
 	    genres =  set(genresMsg.content.split())
 	    avgTime = extractTime(timeMsg.content)
 
@@ -96,41 +98,38 @@ class NewBacklog(Command):
 
 class AddGame(Command):
 	async def execute(self, backlogs):
-	    if self.username not in backlogs:
-	        return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
-	                            to do so, simply type "/newBacklog in the chat. For further help type /help to get \
-	                            a list of possible commands, or for a specific command type /help followed by said \
-	                            command.'.format(self.username))
+		if self.username not in backlogs: 
+			await self.ctx.send("You have yet to create a backlog, {}. Enter /help newBacklog for more info.".format(self.username))
+		else:
+			#prompt the user for the game's name
+			await self.ctx.send("Please enter the game's name.")
+			nameMsg = await self.waitForResponse(self.checkUser)
 
-	    #prompt the user for the game's name
-	    await self.ctx.send("Please enter the game's name.")
-	    nameMsg = await self.waitForResponse(self.checkUser)
+			#prompt the user for the the game's genres
+			await self.ctx.send("Please enter the game's genre(s) seperated by spaces.")
+			genresMsg = await self.waitForResponse(self.checkUser)
 
-	    #prompt the user for the the game's genres
-	    await self.ctx.send("Please enter the game's genres seperated by spaces.")
-	    genresMsg = await self.waitForResponse(self.checkUser)
+			#prompt the user for the estimated time of the game 
+			await self.ctx.send("Please enter how long the games take on average in hours.")
+			avgTimeMsg = await self.waitForResponse(self.checkTimeFormat)
 
-	    #prompt the user for the estimated time of the game 
-	    await self.ctx.send("Please enter how long the games take on average in hours.")
-	    avgTimeMsg = await self.waitForResponse(self.checkTimeFormat)
+			#prompt the user for the amount of time played
+			await self.ctx.send("Please enter how long you have already played this game in hours, entering 0 if you have yet to play it.")
+			timePlayedMsg = await self.waitForResponse(self.checkTimeFormat)
 
-	    #prompt the user for the amount of time played
-	    await self.ctx.send("Please enter how long you have already played this game in hours, entering 0 if you have yet to play it.")
-	    timePlayedMsg = await self.waitForResponse(self.checkTimeFormat)
+			#prompt the user for the their current interest in the game 
+			await self.ctx.send("Please enter your current interest in the game, out of 10.")
+			interestMsg = await self.waitForResponse(self.checkIntFormat)
 
-	    #prompt the user for the their current interest in the game 
-	    await self.ctx.send("Please enter your current interest in the game, out of 10.")
-	    interestMsg = await self.waitForResponse(self.checkIntFormat)
+			name = nameMsg.content
+			genres = set(genresMsg.content.split())
+			avgTime = extractTime(avgTimeMsg.content)
+			timePlayed = extractTime(timePlayedMsg.content)
+			interest = int(interestMsg.content)
 
-	    name = nameMsg.content
-	    genres = set(genresMsg.content.split())
-	    avgTime = extractTime(avgTimeMsg.content)
-	    timePlayed = extractTime(timePlayedMsg.content)
-	    interest = int(interestMsg.content)
+			backlogs[self.username].addGame(Game(name, interest, avgTime, genres, timePlayed))	
 
-	    backlogs[self.username].addGame(Game(name, interest, avgTime, genres, timePlayed))	
-
-	    return await self.ctx.send('{} successfully added to your backlog {}.'.format(name, self.username))	
+			return await self.ctx.send('{} successfully added to your backlog {}.'.format(name, self.username))	
 
 class DelGame():
 	async def execute(self, backlogs):
@@ -146,8 +145,12 @@ class DelGame():
 # class EditBacklog():
 # 	def __init__(self):
 
-# class List():
-# 	def __init__(self):
+class List(Command):
+	async def execute(self, backlogs):
+		if self.username not in backlogs: 
+			await self.ctx.send("You have yet to create a backlog, {}".format(self.username))
+		else:
+			return await self.ctx.send(backlogs[self.username])  #this will use the built-in string function for the backlog class
 
 class SuggestGames(Command):
 	async def execute(self, backlogs):

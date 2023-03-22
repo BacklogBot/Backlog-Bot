@@ -1,7 +1,9 @@
 # bot.py
 import os
 import discord
+import command
 from dotenv import load_dotenv
+from discord.ext import commands
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -24,6 +26,8 @@ backlogs = dict() #dictionary which uses the member name as a key and the backgl
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+    #guild = server
+    '''
     guild = discord.utils.get(bot.guilds, name=GUILD)
     print(
         f'{bot.user} is connected to the following guild:\n'
@@ -32,7 +36,7 @@ async def on_ready():
 
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
-
+    '''
 
 @bot.event
 async def on_member_join(member):
@@ -68,28 +72,29 @@ async def helpBacklog(ctx, *args):
     return await ctx.send("/helpBacklog not implemented")
 
 @bot.command(pass_context=True, name='newBacklog')
-async def newBacklog(ctx, *args):
-    cmd = NewBacklog(bot, ctx)
+async def newBacklog(ctx, *args): #user typed /newBacklog
+    cmd = command.NewBacklog(bot, ctx)
     return await cmd.execute(backlogs)
 
 
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
-    cmd = AddGame(bot, ctx)
+    cmd = command.AddGame(bot, ctx)
     return await cmd.execute(backlogs)
 
 @bot.command(name='delGame')
 async def delGame(ctx, *args):
-    cmd = DelGame(bot, ctx, args)
+    cmd = command.DelGame(bot, ctx, args)
     return await cmd.execute(backlogs)
 
 @bot.command(name='list')
 async def list(ctx, *args):
-    return await ctx.send("/list not implemented.")
+    cmd = command.List(bot, ctx)
+    return await cmd.execute(backlogs)
 
 @bot.command(name='suggestGames')
 async def suggestGames(ctx, *args):
-    cmd = SuggestGames(bot, ctx)
+    cmd = command.SuggestGames(bot, ctx)
     return await cmd.execute(backlogs)
 
 @bot.command(name='edit')
