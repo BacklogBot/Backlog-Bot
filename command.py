@@ -145,9 +145,9 @@ class EditGame():
 	async def execute(self, backlogs):
 	    if self.username not in backlogs:#checks if backlog exists
 	        return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
-	                            to do so, simply type "/newBacklog in the chat. For further help type /help to get \
-	                            a list of possible commands, or for a specific command type /help followed by said \
-	                            command.'.format(self.username))
+	        to do so, simply type "/newBacklog in the chat. For further help type /help to get \
+	        a list of possible commands, or for a specific command type /help followed by said \
+	        command.'.format(self.username))
         
         name = self.args[0]
         game = backlogs[self.username].getGame(name) #The game being edited
