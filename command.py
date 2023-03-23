@@ -158,7 +158,28 @@ class SuggestGames(Command):
 			return await self.ctx.send(str(backlogs[self.username]))
 
 
-# class helpBacklog():
-# 	def __init__(self, *arg):
-
-
+class helpBacklog():
+	async def execute(self):
+		if self.args.length == 0:
+			await self.ctx.send("Here is a list of commands. Enter /helpBacklog [command name] for a description of the command's functionality.)\n")
+			commands = ['NewBacklog', 'AddGame', 'DeleteGame', 'EditGame', 'EditBacklog', 'List', 'SuggestGames']
+			for i in commands:
+				await self.ctx.send(i)
+			return
+		else:
+			if self.arg[1] == 'NewBacklog':
+				return await self.ctx.send("/NewBacklog: Initializes backlog for a user")
+			elif self.arg[1] == 'AddGame':
+				return await self.ctx.send("/AddGame [any game title]: Adds a game to your backlog")
+			elif self.arg[1] == 'DeleteGame':
+				return await self.ctx.send("/DeleteGame [any game title]: Removes the game from your backlog")
+			elif self.arg[1] == 'SuggestGames':
+				return await self.ctx.send("/SuggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list of 20 games")
+			elif self.arg[1] == 'List':
+				return await self.ctx.send("/List [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided")
+			elif self.arg[1] == 'EditGame':
+				return await self.ctx.send("/EditGame [any game title]: Edits the given game's information in the backlog")
+			elif self.arg[1] == 'EditBacklog':
+				return await self.ctx.send("/EditBacklog: Edits preferences for the backlog, such as preferred genres and average play time")
+			else:
+				return await self.ctx.send("Unknown command, enter \"/helpBacklog\" for a comprehensive list of commands and their uses")
