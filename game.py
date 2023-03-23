@@ -11,6 +11,31 @@ class Game:
         #timePlayed is total time this game has played
         self.timePlayed=timePlayed
 
+    #changes timePlayed
+    def changeTimePlayed(self, timePlayed):
+        self.timePlayed=timePlayed
+        return 0
+
+    #returns name
+    def getName(self):
+        return self.name
+
+    #returns interest
+    def getInterest(self):
+        return self.interest
+
+    #returns avgTime
+    def getAvgTime(self):
+        return self.avgTime
+
+    #returns list of genres
+    def getGenres(self):
+        return self.genres
+
+    #returns timePlayed
+    def getTimePlayed(self):
+        return self.timePlayed
+
     #changes game name
     def changeName(self, name):
         self.name=name
@@ -37,31 +62,12 @@ class Game:
         for genre in genres:
             self.genres.remove(genre)
         return 0
-
-    #changes timePlayed
-    def changeTimePlayed(self, timePlayed):
-        self.timePlayed=timePlayed
+        
+    #replaces genres of game wit provided genre
+    def replaceGenres(self, genres):
+        self.removeGenres(self.getGenres().copy())
+        self.addGenres(genres)
         return 0
-
-    #returns name
-    def getName(self):
-        return self.name
-
-    #returns interest
-    def getInterest(self):
-        return self.interest
-
-    #returns avgTime
-    def getAvgTime(self):
-        return self.avgTime
-
-    #returns list of genres
-    def getGenres(self):
-        return self.genres
-
-    #returns timePlayed
-    def getTimePlayed(self):
-        return self.timePlayed
 
     #returns a grade of the game based on intersts and genres
     #currently very rudimentary
