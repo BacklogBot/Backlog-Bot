@@ -1,9 +1,9 @@
 # bot.py
 import os
 import random
-import discord
+import discord #pip install discord
 import asyncio
-from dotenv import load_dotenv
+from dotenv import load_dotenv #pip install python-env
 from discord.ext import commands
 
 from game import Game
