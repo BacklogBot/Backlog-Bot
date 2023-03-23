@@ -250,7 +250,16 @@ class List(Command):
 		if self.username not in backlogs: 
 			await self.ctx.send("You have yet to create a backlog, {}".format(self.username))
 		else:
-			return await self.ctx.send(backlogs[self.username])  #this will use the built-in string function for the backlog class
+			border = "=" * 75
+			user = self.username
+			back = user + "'s Backlog"
+			strng = border + "\n" + back + "\n" + border
+			lst = backlogs[self.username].catalog
+			i = 1
+			for game in lst:
+				strng += i + ": " + game.getName() + "\n"
+				i++
+			return await self.ctx.send(strng)
 
 class SuggestGames(Command):
 	async def execute(self, backlogs):
