@@ -30,7 +30,7 @@ class Game:
 
     #returns list of genres
     def getGenres(self):
-        return self.genres
+        return self.genres.copy()
 
     #returns timePlayed
     def getTimePlayed(self):
@@ -59,7 +59,7 @@ class Game:
 
     #removes genre(s) from the game
     def removeGenres(self, genres):
-        for genre in genres:
+        for genre in genres.copy():
             self.genres.remove(genre)
         return 0
         
