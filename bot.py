@@ -69,7 +69,8 @@ async def on_error(event, *args, **kwargs):
 
 @bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
 async def helpBacklog(ctx, *args):
-    return await ctx.send("/helpBacklog not implemented")
+    cmd = command.helpBacklog(bot, ctx)
+    return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
 async def newBacklog(ctx, *args): #user typed /newBacklog

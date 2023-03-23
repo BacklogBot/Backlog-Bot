@@ -68,7 +68,7 @@ class Command(ABC):
 		return msg
 
 	@abstractmethod #execution method responsbile for executing said command 
-	async def execute(self, backlogs): #variable checker functions
+	async def execute(self): #variable checker functions
 		pass
 
 #-------------------------------------------------------------------------------------------------------------------------------
