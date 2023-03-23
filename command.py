@@ -77,25 +77,25 @@ class NewBacklog(Command):
 	async def execute(self, backlogs):
 
 	    #check to see if the user already has a backlog
-	    if self.username in backlogs:
-	        return await ctx.send('You already have an existing backlog.') 
+		if self.username in backlogs:
+			return await ctx.send('You already have an existing backlog.') 
 
-	    #prompt the user for their list of prefered genres
-	    await self.ctx.send("Please enter a list of your prefered genres, seperated by spaces.")
-	    genresMsg = await self.waitForResponse(self.checkUser)
+		#prompt the user for their list of prefered genres
+		await self.ctx.send("Please enter a list of your prefered genres, seperated by spaces.")
+		genresMsg = await self.waitForResponse(self.checkUser)
 
 	    #prompt the user for average amount of available playtime in a day
-	    await self.ctx.send("Please enter your average amount of available playtime in the format of hours:minutes.")
-	    timeMsg = await self.waitForResponse(self.checkTimeFormat)
+		await self.ctx.send("Please enter your average amount of available playtime in the format of hours:minutes.")
+		timeMsg = await self.waitForResponse(self.checkTimeFormat)
 
 	    #add the backlog to the backlogs dictionary
-	    genres =  set(genresMsg.content.split())
-	    avgTime = extractTime(timeMsg.content)
+		genres =  set(genresMsg.content.split())
+		avgTime = extractTime(timeMsg.content)
 
-	    backlogs[self.username] = Backlog(self.username, genres, avgTime)
+		backlogs[self.username] = Backlog(self.username, genres, avgTime)
 
 	    #confirm backlog creation 
-	    return await self.ctx.send("{}'s backlog created!".format(self.username))
+		return await self.ctx.send("{}'s backlog created!".format(self.username))
 
 class AddGame(Command):
 	async def execute(self, backlogs):
