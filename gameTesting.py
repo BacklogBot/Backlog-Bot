@@ -32,6 +32,15 @@ class testGameMethods(unittest.TestCase):
         self.assertEqual(testGame.avgTime,1)
         self.assertEqual(testGame.genres,set(["RPG", "funny", "bullet hell"]))
         self.assertEqual(testGame.timePlayed,0)
+        testGame.replaceGenres(set(["blurg"]))
+        self.assertEqual(testGame.genres,set(["blurg"]))
+    
+    def testRemoveGetGenres(self):
+        testGame = Game("test", 5, 5, set(["test1", "test2"]), 5)
+        testGame.removeGenres(testGame.getGenres())
+        testGame.addGenres(set(["RPG", "funny", "bullet hell"]))
+        testGame.addGenres(testGame.getGenres())
+        self.assertEqual(testGame.genres,set(["RPG", "funny", "bullet hell"]))
     
     def testScoreGame(self):
         testGame = Game("Undertale", 10, 1, set(["RPG", "funny", "bullet hell"]), 0)
