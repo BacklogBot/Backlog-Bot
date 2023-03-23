@@ -1,4 +1,4 @@
-import game
+import game 
 
 class Backlog:
 	def __init__(self, username, genres = set(), avgTime = 0):
@@ -23,13 +23,16 @@ class Backlog:
 		return formattedString
 
 	#adds the specified genre to the backlog preferences
-	def addGenre(genre):
+	def addGenre(self, genre):
 		self.genres.add(genre)
 		return 0
 
 	#removes the specified genre from the backlog preferences
-	def delGenre(genre):
-		self.genres.remove(genre)
+	def delGenre(self, genre):
+		if(genre in self.userGenres):
+			self.userGenres.remove(genre)
+			return 0 #return 0 if genre was in userGenres and was removed 
+		return 1 #return 1 if there is no such genre currently in userGenres 
 
 	#take a game's name, finds its index in the catalog, if it is not in the catalog returns -1
 	def index(self, name):
