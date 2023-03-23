@@ -277,9 +277,9 @@ class SuggestGames(Command):
 			return await self.ctx.send(resp)
 
 
-class helpBacklog():
+class helpBacklog(Command):
 	async def execute(self):
-		if self.args.length == 0:
+		if self.args == None:
 			await self.ctx.send("Here is a list of commands. Enter /helpBacklog [command name] for a description of the command's functionality.)\n")
 			commands = ['NewBacklog', 'AddGame', 'DeleteGame', 'EditGame', 'EditBacklog', 'List', 'SuggestGames']
 			for i in commands:
