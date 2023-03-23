@@ -143,72 +143,72 @@ class DelGame():
 #May need to modify function to reduce coupling
 class EditGame():
 	async def execute(self, backlogs):
-	    if self.username not in backlogs:#checks if backlog exists
-	        return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
-	        to do so, simply type "/newBacklog in the chat. For further help type /help to get \
-	        a list of possible commands, or for a specific command type /help followed by said \
-	        command.'.format(self.username))
-        
-        name = self.args[0]
-        game = backlogs[self.username].getGame(name) #The game being edited
+		if self.username not in backlogs:#checks if backlog exists
+			return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
+			to do so, simply type "/newBacklog in the chat. For further help type /help to get \
+			a list of possible commands, or for a specific command type /help followed by said \
+			command.'.format(self.username))
+
+		name = self.args[0]
+		game = backlogs[self.username].getGame(name) #The game being edited
 		if(game!=None): #if backlog could not find said game to edit
 			return await self.ctx.send("{} was not found in your backlog, {}".format(name, username))
 		
-        name = game.getName()#technically not needed
-        genres = game.getGenres()
-        avgTime = game.getAvgTime()
-        timePlayed = game.getTimePlayed()
-        interest = game.getInterest()
+		name = game.getName()#technically not needed
+		genres = game.getGenres()
+		avgTime = game.getAvgTime()
+		timePlayed = game.getTimePlayed()
+		interest = game.getInterest()
         
-        editing = True
-        while(editing):#loop to edit multiple attributes
-            await self.ctx.send("Please type which attribute you would like to change.\n\n\
-            - Title\n\
-            - Genres\n\
-            - Average Time of Completion\n\
-            - Time Played\n\
-            - Initial Interest")
-            change = await self.waitForResponse(self.checkUser)
-            if (change.lower()=="title"):
-                await self.ctx.send("Please enter the title of the game you would like to add to your backlog.")
-                title = await self.waitForResponse(self.checkUser)
-            elif (change.lower()=="genres"):
-                await self.ctx.send("Please list the genres of the game in question such as RPG, MMO, Sandbox, etc. separated by spaces.")
-                response = await self.waitForResponse(self.checkUser)
-                genres = set(response.content.split())
-            elif (change.lower()=="average time of completion"):
-                await self.ctx.send("Please enter how much time the game takes on average. For example, \"1:30\" for 1 hour and 30 minutes..")
-                response = await self.waitForResponse(self.checkUser)
-                avgTime = extractTime(response)
-            elif (change.lower()=="time played"):
-                await self.ctx.send("Please enter how much time you have already played this game if at all. For example, \"1:30\" for 1 hour and 30 minutes or \"0:0\" if you have yet to play this game.")
-                response = await self.waitForResponse(self.checkUser)
-                timePlayed = extractTime(response)
-            elif (change.lower()=="interest"):
-                await self.ctx.send("On a scale from 1 to 10 what would you rate your initial interest in this game?")
-                response = await self.waitForResponse(self.checkUser)
-                interest = int(response)
-            else:
-                await self.ctx.send("Response not recognized.")
+		editing = True
+		while(editing):#loop to edit multiple attributes
+			await self.ctx.send("Please type which attribute you would like to change.\n\n\
+			- Title\n\
+			- Genres\n\
+			- Average Time of Completion\n\
+			- Time Played\n\
+			- Initial Interest")
+			change = await self.waitForResponse(self.checkUser)
+			if (change.lower()=="title"):
+				await self.ctx.send("Please enter the title of the game you would like to add to your backlog.")
+				title = await self.waitForResponse(self.checkUser)
+			elif (change.lower()=="genres"):
+				await self.ctx.send("Please list the genres of the game in question such as RPG, MMO, Sandbox, etc. separated by spaces.")
+				response = await self.waitForResponse(self.checkUser)
+				genres = set(response.content.split())
+			elif (change.lower()=="average time of completion"):
+				await self.ctx.send("Please enter how much time the game takes on average. For example, \"1:30\" for 1 hour and 30 minutes..")
+				response = await self.waitForResponse(self.checkUser)
+				avgTime = extractTime(response)
+			elif (change.lower()=="time played"):
+				await self.ctx.send("Please enter how much time you have already played this game if at all. For example, \"1:30\" for 1 hour and 30 minutes or \"0:0\" if you have yet to play this game.")
+				response = await self.waitForResponse(self.checkUser)
+				timePlayed = extractTime(response)
+			elif (change.lower()=="interest"):
+				await self.ctx.send("On a scale from 1 to 10 what would you rate your initial interest in this game?")
+				response = await self.waitForResponse(self.checkUser)
+				interest = int(response)
+			else:
+				await self.ctx.send("Response not recognized.")
             
             #checks if user is done editing
             #may need clarification
-            await self.ctx.send("Is this information correct? Type yes or no.\n\n\
-            -Game: {}\n\
-            -Genres: {}\n\
-            -Average Time of Completion: {}\n\
-            -Time Played: {}\n\
-            -Initial Interest: {}".format(title, genres, avgTime, timePlayed, interest))
-            response = await self.waitForResponse(self.checkUser)
-            if(response.lower()=="yes" or response.lower()=="y"):
-                editing = False
+			await self.ctx.send("Is this information correct? Type yes or no.\n\n\
+			-Game: {}\n\
+			-Genres: {}\n\
+			-Average Time of Completion: {}\n\
+			-Time Played: {}\n\
+			-Initial Interest: {}".format(title, genres, avgTime, timePlayed, interest))
+			response = await self.waitForResponse(self.checkUser)
+			if(response.lower()=="yes" or response.lower()=="y"):
+				editing = False
         
-        game.changeName(title)
-        game.changeInterest(interest)
-        game.changeAvgTime(avgTime)
-        game.changeTimePlayed(timePlayed)
-        game.replaceGenres(genres)
-        return await self.ctx.send("{} has been successfully edited!".format(title))
+		game.changeName(title)
+		game.changeInterest(interest)
+		game.changeAvgTime(avgTime)
+		game.changeTimePlayed(timePlayed)
+		game.replaceGenres(genres)
+		return await self.ctx.send("{} has been successfully edited!".format(title))
             
 
 class EditBacklog(Command):
