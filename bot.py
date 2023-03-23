@@ -98,6 +98,11 @@ async def suggestGames(ctx, *args):
     cmd = command.SuggestGames(bot, ctx)
     return await cmd.execute(backlogs)
 
+@bot.command(name='editGame')
+async def editGame(ctx, *args):
+    cmd = command.EditGame(bot, ctx)
+    return await cmd.execute(backlogs)
+
 @bot.command(name='editBacklog')
 async def edit(ctx, *args):
     cmd = command.EditBacklog(bot, ctx)
