@@ -114,7 +114,25 @@ class AddGame(Command):
 
             self.cr.addGameRec(backlogs, timePlayedMsg, interestMsg, avgTimeMsg, genresMsg, nameMsg, self.username)
 
-            return await self.ctx.send('{} successfully added to your backlog {}.'.format(name, self.username))	
+            return await self.ctx.send('Successfully this new game added to your backlog {}.'.format(self.username))	
+
+class CopyGame(Command):
+    async def execute(self, backlogs):
+        if self.username not in backlogs: 
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+        else:
+            #prompt the user for the game's id
+            await self.ctx.send("Please enter the unique of the game you wish to duplicate. To find your game's unique id, exit this command chain and enter /list.")
+            idMsg = await self.waitForResponse(self.checkUser)
+
+            game_id = idMsg.content
+            game = backlogs[self.username].getGame(game_id) #The game being copied
+            if(game == None): #if we could not find said game to copy
+                return await self.ctx.send("The game with the unique id of {} was not found in your backlog, {}".format(game_id, self.username))
+            
+            self.cr.copyGameRec(backlogs, self.username, game)
+            
+            return await self.ctx.send('{} successfully duplicated. Use /editGame to modify it.'.format(game.getName()))	
 
 class DelGame(Command):
 	async def execute(self, backlogs):
@@ -135,7 +153,7 @@ class EditGame(Command):
 
         name = self.args[0]
         game = backlogs[self.username].getGame(name) #The game being edited
-        if(game!=None): #if backlog could not find said game to edit
+        if(game == None): #if backlog could not find said game to edit
             return await self.ctx.send("{} was not found in your backlog, {}".format(name, username))
         
         #NOTE: cant pass this block off to the receiver because this is how we save the user requested attribute to change

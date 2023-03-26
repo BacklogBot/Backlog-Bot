@@ -1,6 +1,15 @@
-class Game:
+from abc import ABC, abstractmethod
+import itertools
+
+class Cloneable(ABC):
+    @abstractmethod
+    def clone():
+        pass
+
+class Game(Cloneable):
     #initialize new game, with standard initialization interest=0,
     #avgTime=0, and genres as an empty list
+    newid = next(itertools.count())
     def __init__(self, name, interest=0, avgTime=0, genres=set(), timePlayed=0):
         self.name=name
         #interst is intrest in the game directly
@@ -10,6 +19,7 @@ class Game:
         self.genres=genres
         #timePlayed is total time this game has played
         self.timePlayed=timePlayed
+        self.id = Game.newid
 
     #changes timePlayed
     def changeTimePlayed(self, timePlayed):
@@ -74,3 +84,9 @@ class Game:
     def gradeGame(self):
         #temporary solution
         return self.interest
+
+    def clone(self):
+        return Game(self.name, self.interest, self.avgTime, self.genres, self.timePlayed)
+
+    def getID(self):
+        return self.id

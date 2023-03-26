@@ -20,7 +20,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='/', intents = discord.Intents.all())
 
-backlogs = dict() #dictionary which uses the member name as a key and the backglog as a value
+backlogs = dict() #dictionary which uses the member name as a key and the backlog as a value
 
 @bot.event
 async def on_ready():
@@ -81,7 +81,6 @@ async def newBacklog(ctx, *args):
     cmd = cf.createNewCommand("newBacklog")
     return await cmd.execute(backlogs)
 
-
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
     #order a addGame object from the command factory
@@ -122,6 +121,13 @@ async def edit(ctx, *args):
     #order a editBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx) 
     cmd = cf.createNewCommand("editBacklog")
+    return await cmd.execute(backlogs)
+
+@bot.command(pass_context=True, name='copyGame')
+async def copyGame(ctx, *args):
+    #order a copyGame object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("copyGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='fq')

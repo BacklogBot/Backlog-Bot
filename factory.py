@@ -30,3 +30,5 @@ class ConcreteCommandFactory(CommandFactory):
             return command.EditGame(self.bot, self.ctx, self.cr)  #create command and associate it with receiver
         elif command_name == "editBacklog":
             return command.EditBacklog(self.bot, self.ctx, self.cr)  #create command and associate it with receiver
+        elif command_name == "copyGame":
+            return command.CopyGame(self.bot, self.ctx, self.cr)

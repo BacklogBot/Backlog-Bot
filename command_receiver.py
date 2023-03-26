@@ -45,15 +45,19 @@ class CommandReceiver:
         new_genres = set(genresMsg.content.split())
         backlogs[username].genres = new_genres
 
+    def copyGameRec(self, backlogs, username, game):
+        game_copy = game.clone()
+        backlogs[username].addGame(game_copy)
+
     def listRec(self, backlogs, username):
         border = "=" * 75
         user = username
         back = user + "'s Backlog"
-        strng = border + "\n" + back + "\n" + border
+        strng = border + "\n" + back + "\n" + border + "\n"
         lst = backlogs[username].catalog
         i = 1
         for game in lst:
-            strng += i + ": " + game.getName() + "\n"
+            strng += str(game.getID()) + ": " + game.getName() + "\n"
             i += 1    
         return strng
 
