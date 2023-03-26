@@ -4,6 +4,7 @@ import discord #pip install discord
 import command
 from dotenv import load_dotenv #pip install python-env
 from discord.ext import commands
+import command_receiver
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -69,18 +70,21 @@ async def on_error(event, *args, **kwargs):
 
 @bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
 async def helpBacklog(ctx, *args):
-    cmd = command.helpBacklog(bot, ctx)
-    return await cmd.execute()
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.helpBacklog(bot, ctx, com_rec)(bot, ctx, cr) #create command and associate it with receiver
+    return await cmd.execute(backlogs)
 
 @bot.command(pass_context=True, name='newBacklog')
-async def newBacklog(ctx, *args): #user typed /newBacklog
-    cmd = command.NewBacklog(bot, ctx)
+async def newBacklog(ctx, *args):
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.NewBacklog(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
-    cmd = command.AddGame(bot, ctx)
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.AddGame(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 @bot.command(name='delGame')
@@ -90,22 +94,26 @@ async def delGame(ctx, *args):
 
 @bot.command(name='list')
 async def list(ctx, *args):
-    cmd = command.List(bot, ctx)
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.List(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 @bot.command(name='suggestGames')
 async def suggestGames(ctx, *args):
-    cmd = command.SuggestGames(bot, ctx)
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.SuggestGames(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 @bot.command(name='editGame')
 async def editGame(ctx, *args):
-    cmd = command.EditGame(bot, ctx)
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.EditGame(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 @bot.command(name='editBacklog')
 async def edit(ctx, *args):
-    cmd = command.EditBacklog(bot, ctx)
+    cr = command_receiver.CommandReceiver() #create receiver 
+    cmd = command.EditBacklog(bot, ctx, cr) #create command and associate it with receiver
     return await cmd.execute(backlogs)
 
 @bot.command(name='fq')
