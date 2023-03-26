@@ -1,10 +1,9 @@
 # bot.py
 import os
 import discord #pip install discord
-import command
 from dotenv import load_dotenv #pip install python-env
 from discord.ext import commands
-import command_receiver
+import factory
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -70,50 +69,59 @@ async def on_error(event, *args, **kwargs):
 
 @bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
 async def helpBacklog(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.helpBacklog(bot, ctx, com_rec)(bot, ctx, cr) #create command and associate it with receiver
-    return await cmd.execute(backlogs)
+    #order a helpBacklog object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("helpBacklog")
+    return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
 async def newBacklog(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.NewBacklog(bot, ctx, cr) #create command and associate it with receiver
+    #order a newBacklog object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("newBacklog")
     return await cmd.execute(backlogs)
 
 
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.AddGame(bot, ctx, cr) #create command and associate it with receiver
+    #order a addGame object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("addGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='delGame')
 async def delGame(ctx, *args):
-    cmd = command.DelGame(bot, ctx, args)
+    #order a delGame object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("delGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='list')
 async def list(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.List(bot, ctx, cr) #create command and associate it with receiver
+    #order a list object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("list")
     return await cmd.execute(backlogs)
 
 @bot.command(name='suggestGames')
 async def suggestGames(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.SuggestGames(bot, ctx, cr) #create command and associate it with receiver
+    #order a suggestGames object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("suggestGames")
     return await cmd.execute(backlogs)
 
 @bot.command(name='editGame')
 async def editGame(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.EditGame(bot, ctx, cr) #create command and associate it with receiver
+    #order a editGame object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("editGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='editBacklog')
 async def edit(ctx, *args):
-    cr = command_receiver.CommandReceiver() #create receiver 
-    cmd = command.EditBacklog(bot, ctx, cr) #create command and associate it with receiver
+    #order a editBacklog object from the command factory
+    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cmd = cf.createNewCommand("editBacklog")
     return await cmd.execute(backlogs)
 
 @bot.command(name='fq')
