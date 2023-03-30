@@ -7,14 +7,14 @@ from dotenv import load_dotenv
 from discord.ext import commands
 
 from game import Game
-import command_receiver
+import commandReceiver
 
 from abc import ABC, abstractmethod #for abstract classes
 
 
 
 class Command(ABC):
-    cr = command_receiver.CommandReceiver()
+    cr = commandReceiver.CommandReceiver()
     def __init__(self, bot, ctx, com_rec, args=None):
         self.bot = bot
         self.ctx = ctx #command context 
@@ -261,13 +261,16 @@ class SuggestGames(Command):
 
 class HelpBacklog(Command):
     async def execute(self):
-        if self.args == None:
+        await self.ctx.send("If you want to see help for a specific command, enter its name (with no /). To see a list of the possible commands, enter 'continue'.")			
+        msg = await self.waitForResponse(self.checkUser)        
+
+        if msg.content == "continue":
             await self.ctx.send("Here is a list of commands. Enter /helpBacklog [command name] for a description of the command's functionality.)\n")
             commands = ['NewBacklog', 'AddGame', 'DeleteGame', 'EditGame', 'EditBacklog', 'List', 'SuggestGames']
             for i in commands:
                 await self.ctx.send(i)
             return
         else:
-            return await self.ctx.send( self.cr.helpBacklogRec(self.arg[1]) )
+            return await self.ctx.send( self.cr.helpBacklogRec(msg.content) )
 
 

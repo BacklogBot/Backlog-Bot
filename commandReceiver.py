@@ -45,19 +45,15 @@ class CommandReceiver:
         new_genres = set(genresMsg.content.split())
         backlogs[username].genres = new_genres
 
-    def copyGameRec(self, backlogs, username, game):
-        game_copy = game.clone()
-        backlogs[username].addGame(game_copy)
-
     def listRec(self, backlogs, username):
         border = "=" * 75
         user = username
         back = user + "'s Backlog"
-        strng = border + "\n" + back + "\n" + border + "\n"
+        strng = border + "\n" + back + "\n" + border
         lst = backlogs[username].catalog
         i = 1
         for game in lst:
-            strng += str(game.getID()) + ": " + game.getName() + "\n"
+            strng += i + ": " + game.getName() + "\n"
             i += 1    
         return strng
 
@@ -71,7 +67,7 @@ class CommandReceiver:
             resp += (game.getName() + " with a score of " + str(game.getInterest()) + "\n")    
         return resp
 
-    def helpBacklogRec(self, backlogs, username, selected):
+    def helpBacklogRec(self, selected):
             if selected == 'NewBacklog':
                 return "/NewBacklog: Initializes backlog for a user"
             elif selected == 'AddGame':

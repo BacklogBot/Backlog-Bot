@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod #for abstract classes
-import command_receiver
+import commandReceiver
 import command
 
 class CommandFactory(ABC):
     def __init__(self, input_bot, input_ctx):
-        self.cr = command_receiver.CommandReceiver() #create receiver 
+        self.cr = commandReceiver.CommandReceiver() #create receiver 
         self.bot = input_bot
         self.ctx = input_ctx
 

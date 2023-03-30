@@ -71,7 +71,7 @@ async def on_error(event, *args, **kwargs):
 async def helpBacklog(ctx, *args):
     #order a helpBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx) 
-    cmd = cf.createNewCommand("helpBacklog")
+    cmd = cf.createNewCommand("helpBacklog")  #order this specfific command from the factory
     return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
