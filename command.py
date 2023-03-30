@@ -265,7 +265,7 @@ class HelpBacklog(Command):
         msg = await self.waitForResponse(self.checkUser)        
 
         if msg.content == "continue":
-            await self.ctx.send("Here is a list of commands. Enter /helpBacklog [command name] for a description of the command's functionality.)\n")
+            await self.ctx.send("Here is a list of commands. Enter /helpBacklog, then enter a command name for a description of the command's functionality.)\n")
             await self.ctx.send("NewBacklog\nAddGame\nDeleteGame\nEditGame\nEditBacklog\nList\nSuggestGames")
             return
         else:
