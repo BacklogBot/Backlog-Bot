@@ -71,7 +71,7 @@ async def on_error(event, *args, **kwargs):
 async def helpBacklog(ctx, *args):
     #order a helpBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx) 
-    cmd = cf.createNewCommand("helpBacklog")  #order this specfific command from the factory
+    cmd = cf.createNewCommand("helpBacklog")
     return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
@@ -88,11 +88,11 @@ async def addGame(ctx, *args):
     cmd = cf.createNewCommand("addGame")
     return await cmd.execute(backlogs)
 
-@bot.command(name='delGame')
-async def delGame(ctx, *args):
+@bot.command(name='deleteGame')
+async def deleteGame(ctx, *args):
     #order a delGame object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx) 
-    cmd = cf.createNewCommand("delGame")
+    cmd = cf.createNewCommand("deleteGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='list')
