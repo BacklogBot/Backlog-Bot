@@ -70,63 +70,63 @@ async def on_error(event, *args, **kwargs):
 @bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
 async def helpBacklog(ctx, *args):
     #order a helpBacklog object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("helpBacklog")  #order this specfific command from the factory
     return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
 async def newBacklog(ctx, *args):
     #order a newBacklog object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("newBacklog")
     return await cmd.execute(backlogs)
 
 @bot.command(pass_context=True, name='addGame')
 async def addGame(ctx, *args):
     #order a addGame object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("addGame")
     return await cmd.execute(backlogs)
 
-@bot.command(name='delGame')
-async def delGame(ctx, *args):
+@bot.command(name='deleteGame')
+async def deleteGame(ctx, *args):
     #order a delGame object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("delGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='list')
 async def list(ctx, *args):
     #order a list object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("list")
     return await cmd.execute(backlogs)
 
 @bot.command(name='suggestGames')
 async def suggestGames(ctx, *args):
     #order a suggestGames object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("suggestGames")
     return await cmd.execute(backlogs)
 
 @bot.command(name='editGame')
 async def editGame(ctx, *args):
     #order a editGame object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("editGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='editBacklog')
 async def edit(ctx, *args):
     #order a editBacklog object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("editBacklog")
     return await cmd.execute(backlogs)
 
 @bot.command(pass_context=True, name='copyGame')
 async def copyGame(ctx, *args):
     #order a copyGame object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx) 
+    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("copyGame")
     return await cmd.execute(backlogs)
 

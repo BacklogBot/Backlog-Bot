@@ -11,7 +11,13 @@ import commandReceiver
 
 from abc import ABC, abstractmethod #for abstract classes
 
-
+def extractTime(timeStr):
+    #expected timeStr format = hours:minutes
+    time = timeStr.split(':')
+    if len(time) == 1 or int(time[1]) == 0: #we only have hours to deal with
+        return int(time[0])
+    else:
+        return int(time[0]) + int(time[1])/60.0
 
 class Command(ABC):
     cr = commandReceiver.CommandReceiver()
@@ -138,9 +144,9 @@ class DelGame(Command):
 	async def execute(self, backlogs):
 		name = self.args[0]
 		if(self.cr.deleteGameRec(backlogs, name, self.username)): #if backlog could not find said game to remove
-			return await self.ctx.send("{} was not found in your backlog, {}".format(name, username))
+			return await self.ctx.send("{} was not found in your backlog, {}".format(name, self.username))
 		else:
-			return await self.ctx.send("{} was removed from your backlog, {}".format(name, username))
+			return await self.ctx.send("{} was removed from your backlog, {}".format(name, self.username))
 
 #May need to modify function to reduce coupling
 class EditGame(Command):
@@ -152,12 +158,12 @@ class EditGame(Command):
             command.'.format(self.username))
 
         name = self.args[0]
-        game = backlogs[self.username].getGame(name) #The game being edited
+        game = backlogs[self.username].getGame2(name) #The game being edited
         if(game == None): #if backlog could not find said game to edit
             return await self.ctx.send("{} was not found in your backlog, {}".format(name, username))
         
         #NOTE: cant pass this block off to the receiver because this is how we save the user requested attribute to change
-        name = game.getName()#technically not needed
+        title = game.getName()#technically not needed
         genres = game.getGenres()
         avgTime = game.getAvgTime()
         timePlayed = game.getTimePlayed()
@@ -171,25 +177,26 @@ class EditGame(Command):
             - Average Time of Completion\n\
             - Time Played\n\
             - Initial Interest")
-            change = await self.waitForResponse(self.checkUser)
+
+            change = (await self.waitForResponse(self.checkUser)).content
             if (change.lower()=="title"):
                 await self.ctx.send("Please enter the title of the game you would like to add to your backlog.")
-                title = await self.waitForResponse(self.checkUser)
+                title = (await self.waitForResponse(self.checkUser)).content
             elif (change.lower()=="genres"):
                 await self.ctx.send("Please list the genres of the game in question such as RPG, MMO, Sandbox, etc. separated by spaces.")
-                response = await self.waitForResponse(self.checkUser)
-                genres = set(response.content.split())
+                response = (await self.waitForResponse(self.checkUser)).content
+                genres = set(response.split())
             elif (change.lower()=="average time of completion"):
                 await self.ctx.send("Please enter how much time the game takes on average. For example, \"1:30\" for 1 hour and 30 minutes..")
-                response = await self.waitForResponse(self.checkUser)
+                response = (await self.waitForResponse(self.checkUser)).content
                 avgTime = extractTime(response)
             elif (change.lower()=="time played"):
                 await self.ctx.send("Please enter how much time you have already played this game if at all. For example, \"1:30\" for 1 hour and 30 minutes or \"0:0\" if you have yet to play this game.")
-                response = await self.waitForResponse(self.checkUser)
+                response = (await self.waitForResponse(self.checkUser)).content
                 timePlayed = extractTime(response)
-            elif (change.lower()=="interest"):
+            elif (change.lower()=="initial interest"):
                 await self.ctx.send("On a scale from 1 to 10 what would you rate your initial interest in this game?")
-                response = await self.waitForResponse(self.checkUser)
+                response = (await self.waitForResponse(self.checkUser)).content
                 interest = int(response)
             else:
                 await self.ctx.send("Response not recognized.")
@@ -202,7 +209,7 @@ class EditGame(Command):
             -Average Time of Completion: {}\n\
             -Time Played: {}\n\
             -Initial Interest: {}".format(title, genres, avgTime, timePlayed, interest))
-            response = await self.waitForResponse(self.checkUser)
+            response = (await self.waitForResponse(self.checkUser)).content
             if(response.lower()=="yes" or response.lower()=="y"):
                 editing = False
         
@@ -260,15 +267,13 @@ class SuggestGames(Command):
 
 
 class HelpBacklog(Command):
-    async def execute(self):
-        await self.ctx.send("If you want to see help for a specific command, enter its name (with no /). To see a list of the possible commands, enter 'continue'.")			
-        msg = await self.waitForResponse(self.checkUser)        
+    async def execute(self): 
 
-        if msg.content == "continue":
-            await self.ctx.send("Here is a list of commands. Enter /helpBacklog, then enter a command name for a description of the command's functionality.)\n")
+        if(self.args == None or len(self.args) == 0):
+            await self.ctx.send("Here is a list of commands. Enter /helpBacklog and a command name for a description of the command's functionality.)\n")
             await self.ctx.send("NewBacklog\nAddGame\nDeleteGame\nEditGame\nEditBacklog\nList\nSuggestGames")
             return
         else:
-            return await self.ctx.send( self.cr.helpBacklogRec(msg.content) )
+            return await self.ctx.send( self.cr.helpBacklogRec(self.args[0]) )
 
 

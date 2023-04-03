@@ -1,5 +1,6 @@
 import backlog
 import game
+from game import Game
 
 """ 
 =====================================
@@ -102,7 +103,7 @@ def extractTime(timeStr):
 	if len(time) == 1 or int(time[1]) == 0: #we only have hours to deal with
 		return int(time[0])
 	else:
-		return int(time[0]) + 60/int(time[1])
+		return int(time[0]) + int(time[1])/60.0
 
 
 class CommandReceiver:
@@ -122,7 +123,7 @@ class CommandReceiver:
         backlogs[username].addGame(game.Game(name, interest, avgTime, genres, timePlayed))	
 
     def deleteGameRec(self, backlogs, name, username):
-        return backlogs[username].delGame(name)
+        return backlogs[username].deleteGame(name)
 
     def editGameRec(self, game, title, interest, avgTime, timePlayed, genres):
         game.changeName(title)
@@ -143,38 +144,36 @@ class CommandReceiver:
         border = "=" * 75
         user = username
         back = user + "'s Backlog"
-        strng = border + "\n" + back + "\n" + border
+        strng = border + "\n" + back + "\n" + border + "\n"
         lst = backlogs[username].catalog
         i = 1
         for game in lst:
-            strng += i + ": " + game.getName() + "\n"
+            strng += "{}: {}\n".format(i, game.getName())
             i += 1    
         return strng
 
     def SuggestGamesRec(self, backlogs, username):
         l1 = backlogs[username].catalog
         l2 = list(l1)  #make a shallow copy of the list. so by the end of this code block, l2 should be unchanged
-        algo2.sortGames(l1)
+        sortGames(l1)
         resp = "These are the games in your backlog that I think you should play, according to the preferences you have provided so far.\nnote: the higher the score, the more you'll enjoy it!\n\n"
         #algo2.printList(l1)  print the list of games to the terminal
         for game in l1:
-            resp += (game.getName() + " with a score of " + str(game.getInterest()) + "\n")    
+            resp += (game.getName() + " with a score of " + str(game.getInterest()) + "\n")     
         return resp
 
     def helpBacklogRec(self, selected):
-            if selected == 'NewBacklog':
-                return "/NewBacklog: Initializes backlog for a user"
-            elif selected == 'AddGame':
-                return "/AddGame [any game title]: Adds a game to your backlog"
-            elif selected == 'DeleteGame':
-                return "/DeleteGame [any game title]: Removes the game from your backlog"
-            elif selected == 'SuggestGames':
-                return "/SuggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list of 20 games"
-            elif selected == 'List':
-                return "/List [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided"
-            elif selected == 'EditGame':
-                return "/EditGame [any game title]: Edits the given game's information in the backlog"
-            elif selected == 'EditBacklog':
-                return "/EditBacklog: Edits preferences for the backlog, such as preferred genres and average play time"
-            else:
-                return "Unknown command, enter \"/helpBacklog\" for a comprehensive list of commands and their uses"
+        functionality = {
+            'newBacklog': "/newBacklog: Initializes backlog for a user",\
+            'addGame': "/addGame [any game title]: Adds a game to your backlog",\
+            'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog",\
+            'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list of 20 games",\
+            'list': "/list [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided",\
+            'editGame': "/editGame [any game title]: Edits the given game's information in the backlog",\
+            'editBacklog': "/editBacklog: Edits preferences for the backlog, such as preferred genres and average play time"\
+        }
+
+        if selected not in functionality:
+            return "Unknown command, enter \"/helpBacklog\" for a comprehensive list of commands and their uses"
+        else:
+            return functionality[selected]

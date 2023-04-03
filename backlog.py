@@ -49,11 +49,12 @@ class Backlog:
 
         if(self.length == 0):
             self.catalog.append(game)
+            self.length += 1
             return 0
 
         if(self.index(name) == -1): #there is no matching title in the catalog
             for index in range(self.length):
-                existingGame = self.catolog[index]
+                existingGame = self.catalog[index]
 
                 if(existingGame.gradeGame() > game.gradeGame()):
                     self.catalog.insert(index, game)
@@ -64,10 +65,10 @@ class Backlog:
             return 1
 
     #takes a game's name, finds the matching game in the catalog, and removes it
-    def delGame(self, name):
+    def deleteGame(self, name):
         for index in range(self.length):
             game = self.catalog[index]
-
+            print(game.getName(), flush=True)
             if(game.getName() == name):
                 self.catalog.pop(index)
                 self.length -= 1
@@ -81,9 +82,15 @@ class Backlog:
 
     #given a game's unqiue id, return the game object from the catalog, if it is not there then return None
     def getGame(self, game_id):
-        for i in range(len(self.catalog)):
+        for i in range(self.length):
             if self.catalog[i].getID() == int(game_id):
                     return self.catalog[i]
+        return None
+
+    def getGame2(self, name):
+        for i in range(self.length):
+            if self.catalog[i].getName() == name:
+                return self.catalog[i]
         return None
 
     #returns the current length of the catalog
