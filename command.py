@@ -96,7 +96,7 @@ class NewBacklog(Command):
 class AddGame(Command):
     async def execute(self, backlogs):
         if self.username not in backlogs: 
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             #prompt the user for the game's name
             await self.ctx.send("Please enter the game's name.")
@@ -125,7 +125,7 @@ class AddGame(Command):
 class CopyGame(Command):
     async def execute(self, backlogs):
         if self.username not in backlogs: 
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             #prompt the user for the game's id
             await self.ctx.send("Please enter the unique of the game you wish to duplicate. To find your game's unique id, exit this command chain and enter /list.")
@@ -140,7 +140,7 @@ class CopyGame(Command):
             
             return await self.ctx.send('{} successfully duplicated. Use /editGame to modify it.'.format(game.getName()))	
 
-class DelGame(Command):
+class DeleteGame(Command):
 	async def execute(self, backlogs):
 		name = self.args[0]
 		if(self.cr.deleteGameRec(backlogs, name, self.username)): #if backlog could not find said game to remove
@@ -153,9 +153,7 @@ class EditGame(Command):
     async def execute(self, backlogs):
         if self.username not in backlogs:#checks if backlog exists
             return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
-            to do so, simply type "/newBacklog in the chat. For further help type /helpBacklog to get \
-            a list of possible commands, or for a specific command type /helpBacklog followed by said \
-            command.'.format(self.username))
+            to do so, simply type "/newBacklog in the chat. For further help enter /helpBacklog, then enter newBacklog.'.format(self.username))
 
         name = self.args[0]
         game = backlogs[self.username].getGame2(name) #The game being edited
@@ -221,7 +219,7 @@ class EditGame(Command):
 class EditBacklog(Command):
     async def execute(self, backlogs):
         if self.username not in backlogs: 
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:			
             await self.ctx.send("If you wish to edit your backlog's preferred genres, enter 1.\nIf you wish to edit your average available playing time, enter 2.")			
             editMsg = await self.waitForResponse(self.checkUser)
@@ -253,7 +251,7 @@ class EditBacklog(Command):
 class List(Command):
     async def execute(self, backlogs):
         if self.username not in backlogs: 
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             return await self.ctx.send(self.cr.listRec(backlogs, self.username))
 
@@ -261,7 +259,7 @@ class SuggestGames(Command):
     async def execute(self, backlogs):
         #list games in order of their scores, higher scores first  
         if self.username not in backlogs:
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog newBacklog for more info.".format(self.username))
+            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             return await self.ctx.send(self.cr.SuggestGamesRec(backlogs, self.username))
 
