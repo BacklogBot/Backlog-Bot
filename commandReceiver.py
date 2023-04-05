@@ -30,8 +30,7 @@ def get_pivot(input_list, starting, ending):  #uses median of three method!
 def compare(game1, game2):
     '''
     basically, we consider interest to have a higher weight than time played, while do our comparisons
-
-    weight really comes into play when their needs to be tie-breakers
+    weight really comes into play when there needs to be tie-breakers
     '''
     if game1.getInterest() > game2.getInterest():
         return 1
@@ -43,17 +42,7 @@ def compare(game1, game2):
         elif game1.getTimePlayed() < game2.getTimePlayed():
             return -1
         else:
-            return 0       
-
-def compareActual(game1, game2):
-    '''
-    only consider interest for interim release
-    '''
-    if game1.getInterest() > game2.getInterest():
-        return 1
-    elif game1.getInterest() < game2.getInterest():
-        return -1 
-    else: return 0      
+            return 0            
 
 def partition(input_list, starting, ending):
     pivot_index = get_pivot(input_list, starting, ending) #get the item we'll compare everything else to
@@ -65,7 +54,7 @@ def partition(input_list, starting, ending):
 
     border = starting
     for i in range(starting, ending+1): 
-        if ( compareActual(input_list[i], input_list[starting]) == 1 ):
+        if ( compare(input_list[i], input_list[starting]) == 1 ):
             border += 1 
 
             #swap the current item with the border item
