@@ -5,7 +5,6 @@ class Backlog:
         #basic catalog attributes
         self.username = username #discord username
         self.catalog = [] #list of games
-        self.length = 0
 
         #client preferences
         self.userGenres = genres
@@ -36,42 +35,42 @@ class Backlog:
 
     #take a game's name, finds its index in the catalog, if it is not in the catalog returns -1
     def index(self, name):
-        for index in range(self.length):
-            game = self.catalog[index]
-
-            if(game.getName() == name):
-                return index
+        if len(self.catalog) > 0:
+            for index in range(len(self.catalog)):
+                game = self.catalog[index]
+                if(game.getName() == name):
+                    return index
         return -1 #return -1 if the given title is not in the catalog
 
     #adds a game object to the catalog
     def addGame(self, game):
         name = game.getName()
 
-        if(self.length == 0):
+        if(len(self.catalog) == 0):
             self.catalog.append(game)
-            self.length += 1
             return 0
 
         if(self.index(name) == -1): #there is no matching title in the catalog
+            self.catalog.append(game)            
+            '''
             for index in range(self.length):
                 existingGame = self.catalog[index]
 
+                
                 if(existingGame.gradeGame() > game.gradeGame()):
                     self.catalog.insert(index, game)
-
-            self.length += 1
+            '''
             return 0
         else: #there is a mathcing title in the catlog
             return 1
 
     #takes a game's name, finds the matching game in the catalog, and removes it
     def deleteGame(self, name):
-        for index in range(self.length):
+        for index in range(len(self.catalog)):
             game = self.catalog[index]
             print(game.getName(), flush=True)
             if(game.getName() == name):
                 self.catalog.pop(index)
-                self.length -= 1
                 return 0 #return success 0 if there the game exists in the catlog and is removed
 
         return 1 #return failure 1 if there is no such game in the catalog
@@ -82,17 +81,17 @@ class Backlog:
 
     #given a game's unqiue id, return the game object from the catalog, if it is not there then return None
     def getGame(self, game_id):
-        for i in range(self.length):
+        for i in range(len(self.catalog)):
             if self.catalog[i].getID() == int(game_id):
                     return self.catalog[i]
         return None
 
     def getGame2(self, name):
-        for i in range(self.length):
+        for i in range(len(self.catalog)):
             if self.catalog[i].getName() == name:
                 return self.catalog[i]
         return None
 
     #returns the current length of the catalog
     def getLength(self):
-        return self.length
+        return len(self.catalog)
