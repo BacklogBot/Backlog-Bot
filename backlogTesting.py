@@ -8,7 +8,6 @@ class testBacklogMethods(unittest.TestCase):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
         self.assertEqual(testBacklog.username,"user1")
         self.assertEqual(testBacklog.catalog, [])
-        self.assertEqual(testBacklog.length, 0)
         self.assertEqual(testBacklog.userGenres, {"RPG", "funny", "bullet hell"})
         self.assertEqual(testBacklog.avgAvailableTime, 2)
 
@@ -16,7 +15,6 @@ class testBacklogMethods(unittest.TestCase):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"})
         self.assertEqual(testBacklog.username,"user1")
         self.assertEqual(testBacklog.catalog, [])
-        self.assertEqual(testBacklog.length, 0)
         self.assertEqual(testBacklog.userGenres, {"RPG", "funny", "bullet hell"})
         self.assertEqual(testBacklog.avgAvailableTime, 0)
 
@@ -24,7 +22,6 @@ class testBacklogMethods(unittest.TestCase):
         testBacklog = Backlog("user1", avgTime = 2)
         self.assertEqual(testBacklog.username,"user1")
         self.assertEqual(testBacklog.catalog, [])
-        self.assertEqual(testBacklog.length, 0)
         self.assertEqual(testBacklog.userGenres, set())
         self.assertEqual(testBacklog.avgAvailableTime, 2)
 
@@ -32,7 +29,6 @@ class testBacklogMethods(unittest.TestCase):
         testBacklog = Backlog("user1")
         self.assertEqual(testBacklog.username,"user1")
         self.assertEqual(testBacklog.catalog, [])
-        self.assertEqual(testBacklog.length, 0)
         self.assertEqual(testBacklog.userGenres, set())
         self.assertEqual(testBacklog.avgAvailableTime, 0)
 
@@ -60,36 +56,36 @@ class testBacklogMethods(unittest.TestCase):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
         testGame = Game("Undertale", 10, 1, {"RPG", "funny", "bullet hell"}, 0)
         testBacklog.addGame(testGame)
-        testBacklog.delGame(testGame)
+        testBacklog.deleteGame(testGame.getName())
         self.assertTrue(testGame not in testBacklog.catalog)
 
     def testDelGame2(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
-        self.assertTrue(testBacklog.delGame("Undertale") == 1)
+        self.assertTrue(testBacklog.deleteGame("Undertale") == 1)
 
     def testGetGame1(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
         testGame = Game("Undertale", 10, 1, {"RPG", "funny", "bullet hell"}, 0)
         testBacklog.addGame(testGame)
-        self.assertEquals(testBacklog.getGame("Undertale"), testGame)
+        self.assertEqual(testBacklog.getGame(testGame.getID()), testGame)
 
     def testGetGame2(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
-        self.assertEquals(testBacklog.getGame("Undertale"), None)
+        self.assertEqual(testBacklog.getGame("Undertale"), None)
 
     def testGetUser(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
-        self.assertEquals(testBacklog.getUser, "user1")
+        self.assertEqual(testBacklog.getUser(), "user1")
 
     def testGetLength1(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
-        self.assertEquals(testBacklog.length, 0)
+        self.assertEqual(testBacklog.getLength(), 0)
 
     def testGetLength2(self):
         testBacklog = Backlog("user1", {"RPG", "funny", "bullet hell"}, 2)
         testGame = Game("Undertale", 10, 1, {"RPG", "funny", "bullet hell"}, 0)
         testBacklog.addGame(testGame)
-        self.assertEquals(testBacklog.length, 1)
+        self.assertEqual(testBacklog.getLength(), 1)
 
 if __name__ == '__main__':
     unittest.main()

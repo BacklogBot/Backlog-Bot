@@ -23,7 +23,7 @@ class Backlog:
 
     #adds the specified genre to the backlog preferences
     def addGenre(self, genre):
-        self.genres.add(genre)
+        self.userGenres.add(genre)
         return 0
 
     #removes the specified genre from the backlog preferences
@@ -68,7 +68,7 @@ class Backlog:
     def deleteGame(self, name):
         for index in range(len(self.catalog)):
             game = self.catalog[index]
-            print(game.getName(), flush=True)
+            #print(game.getName(), flush=True)
             if(game.getName() == name):
                 self.catalog.pop(index)
                 return 0 #return success 0 if there the game exists in the catlog and is removed
