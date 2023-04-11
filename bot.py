@@ -26,17 +26,6 @@ backlogs = dict() #dictionary which uses the member name as a key and the backlo
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-    #guild = server
-    '''
-    guild = discord.utils.get(bot.guilds, name=GUILD)
-    print(
-        f'{bot.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
-
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
-    '''
 
 @bot.event
 async def on_member_join(member):
@@ -44,18 +33,6 @@ async def on_member_join(member):
     await member.dm_channel.send(
         f'Hi {member.name}, I see you are a new user.'
     )
-
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user: #this is to prevent the bot from responding to itself
-#         return
-
-#     print(f'message: {message.content}')
-#     if message.content == '99!':
-#         response = random.choice(brooklyn_99_quotes)
-#         await message.channel.send(response)
-#     elif message.content == 'raise-exception':
-#         raise discord.DiscordException
 
 @bot.event
 async def on_error(event, *args, **kwargs):
@@ -71,7 +48,7 @@ async def on_error(event, *args, **kwargs):
 async def helpBacklog(ctx, *args):
     #order a helpBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx, args) 
-    cmd = cf.createNewCommand("helpBacklog")  #order this specfific command from the factory
+    cmd = cf.createNewCommand("helpBacklog")
     return await cmd.execute()
 
 @bot.command(pass_context=True, name='newBacklog')
@@ -117,7 +94,7 @@ async def editGame(ctx, *args):
     return await cmd.execute(backlogs)
 
 @bot.command(name='editBacklog')
-async def edit(ctx, *args):
+async def editBacklog(ctx, *args):
     #order a editBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx, args) 
     cmd = cf.createNewCommand("editBacklog")

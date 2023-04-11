@@ -77,7 +77,7 @@ def quicksort(input_list, starting, ending):
         quicksort(input_list, starting, pivot-1)  #sort all items to the left of pivot
         quicksort(input_list, pivot+1, ending)  #sort all items to the right of pivot
 
-def sortGames(input_list):  #uses quicksort to sort games passed in the list l
+def sortGames(input_list):  #uses quicksort to sort games
     quicksort(input_list, 0, len(input_list)-1) 
 
 """ 

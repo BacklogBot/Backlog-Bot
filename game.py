@@ -63,7 +63,7 @@ class Game(Cloneable):
 
     #adds genre(s) to the game
     def addGenres(self, genres):
-        for genre in genres: #changed generes to a set to increase efficiency
+        for genre in genres: 
             self.genres.add(genre)
         return 0
 
