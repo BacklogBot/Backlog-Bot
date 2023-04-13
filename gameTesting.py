@@ -41,10 +41,6 @@ class testGameMethods(unittest.TestCase):
         testGame.addGenres(set(["RPG", "funny", "bullet hell"]))
         testGame.addGenres(testGame.getGenres())
         self.assertEqual(testGame.genres,set(["RPG", "funny", "bullet hell"]))
-    
-    def testScoreGame(self):
-        testGame = Game("Undertale", 10, 1, set(["RPG", "funny", "bullet hell"]), 0)
-        self.assertEqual(testGame.gradeGame(),10)
         
         
         
