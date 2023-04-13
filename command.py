@@ -218,6 +218,8 @@ class EditGame(Command):
 
 class EditBacklog(Command):
     async def execute(self, backlogs):
+        #NOTE: consider regrading all the backlog games based on the new proposed change
+        #basically call "regrade" at the end of this function, no matter which option was selected
         if self.username not in backlogs: 
             return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:			
