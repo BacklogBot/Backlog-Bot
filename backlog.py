@@ -71,8 +71,9 @@ class Backlog:
         return self.username
 
     #given a game's unqiue id, return the game object from the catalog, if it is not there then return None
-    def getGame(self, game_id):
+    def getGameFromID(self, game_id):
         for i in range(len(self.catalog)):
+            print(self.catalog[i].getID())
             if self.catalog[i].getID() == int(game_id):
                     return self.catalog[i]
         return None

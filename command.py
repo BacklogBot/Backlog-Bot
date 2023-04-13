@@ -155,10 +155,11 @@ class EditGame(Command):
             return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
             to do so, simply type "/newBacklog in the chat. For further help enter /helpBacklog, then enter newBacklog.'.format(self.username))
 
-        name = self.args[0]
-        game = backlogs[self.username].getGame2(name) #The game being edited
+        game_name = self.args[0]
+        game_id = self.args[1]
+        game = backlogs[self.username].getGameFromID(game_id) #The game being edited
         if(game == None): #if backlog could not find said game to edit
-            return await self.ctx.send("{} was not found in your backlog, {}".format(name, username))
+            return await self.ctx.send("{} was not found in your backlog, {}".format(game_name, self.username))
         
         #NOTE: cant pass this block off to the receiver because this is how we save the user requested attribute to change
         title = game.getName()#technically not needed

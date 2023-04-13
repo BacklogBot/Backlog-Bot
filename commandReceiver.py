@@ -135,7 +135,7 @@ class CommandReceiver:
         back = user + "'s Backlog"
         strng = border + "\n" + back + "\n" + border + "\n"
         lst = backlogs[username].catalog
-        i = 1
+        i = 0
         for game in lst:
             strng += "{}: {}\n".format(i, game.getName())
             i += 1    
