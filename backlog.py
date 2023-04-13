@@ -80,3 +80,12 @@ class Backlog:
     #returns the current length of the catalog
     def getLength(self):
         return len(self.catalog)
+    
+    #grades a game in the backlog
+    def gradeGame(self, game):
+        score=game.getInterest()*100
+        matchingGenres=len(game.getGenres().intersection(self.userGenres()))
+        score+=matchingGenres*100
+        score-=game.getTimePlayed()
+        score-=min(0,game.getAvgTime()-self.avgAvailableTime)*600
+        return score
