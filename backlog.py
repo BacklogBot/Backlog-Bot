@@ -70,11 +70,10 @@ class Backlog:
     def getUser(self):
         return self.username
 
-    #given a game's unqiue id, return the game object from the catalog, if it is not there then return None
-    def getGameFromID(self, game_id):
+    #given a game's unqiue name, return the game object from the catalog, if it is not there then return None
+    def getGame(self, name):
         for i in range(len(self.catalog)):
-            print(self.catalog[i].getID())
-            if self.catalog[i].getID() == int(game_id):
+            if self.catalog[i].getName() == name:
                     return self.catalog[i]
         return None
 

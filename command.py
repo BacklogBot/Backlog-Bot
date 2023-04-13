@@ -94,6 +94,15 @@ class NewBacklog(Command):
 
 
 class AddGame(Command):
+    def duplicateCheck(self, backlog, nameMsg):
+        for i in range(len(backlog.catalog)):
+            current_name = (backlog.catalog[i]).getName()
+            name = nameMsg.content
+            
+            if current_name == name:
+                return -1
+        return 1
+
     async def execute(self, backlogs):
         if self.username not in backlogs: 
             return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
@@ -101,6 +110,13 @@ class AddGame(Command):
             #prompt the user for the game's name
             await self.ctx.send("Please enter the game's name.")
             nameMsg = await self.waitForResponse(self.checkUser)
+
+
+
+            while self.duplicateCheck(backlogs[self.username], nameMsg) == -1:
+                await self.ctx.send('You cannot add this game to your backlog, {}. There is already a game with the same name in your backlog. Please enter a different name for the game.'.format(self.username))	
+                nameMsg = await self.waitForResponse(self.checkUser)
+
 
             #prompt the user for the the game's genres
             await self.ctx.send("Please enter the game's genre(s) seperated by spaces.")
@@ -119,26 +135,7 @@ class AddGame(Command):
             interestMsg = await self.waitForResponse(self.checkIntFormat)
 
             self.cr.addGameRec(backlogs, timePlayedMsg, interestMsg, avgTimeMsg, genresMsg, nameMsg, self.username)
-
-            return await self.ctx.send('Successfully this new game added to your backlog {}.'.format(self.username))	
-
-class CopyGame(Command):
-    async def execute(self, backlogs):
-        if self.username not in backlogs: 
-            return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
-        else:
-            #prompt the user for the game's id
-            await self.ctx.send("Please enter the unique of the game you wish to duplicate. To find your game's unique id, exit this command chain and enter /list.")
-            idMsg = await self.waitForResponse(self.checkUser)
-
-            game_id = idMsg.content
-            game = backlogs[self.username].getGame(game_id) #The game being copied
-            if(game == None): #if we could not find said game to copy
-                return await self.ctx.send("The game with the unique id of {} was not found in your backlog, {}".format(game_id, self.username))
-            
-            self.cr.copyGameRec(backlogs, self.username, game)
-            
-            return await self.ctx.send('{} successfully duplicated. Use /editGame to modify it.'.format(game.getName()))	
+            return await self.ctx.send('Successfully added this new game to your backlog {}.'.format(self.username))	
 
 class DeleteGame(Command):
 	async def execute(self, backlogs):

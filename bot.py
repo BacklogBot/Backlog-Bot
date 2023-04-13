@@ -106,13 +106,6 @@ async def editBacklog(ctx, *args):
     cmd = cf.createNewCommand("editBacklog")
     return await cmd.execute(backlogs)
 
-@bot.command(pass_context=True, name='copyGame')
-async def copyGame(ctx, *args):
-    #order a copyGame object from the command factory
-    cf = factory.ConcreteCommandFactory(bot, ctx, args) 
-    cmd = cf.createNewCommand("copyGame")
-    return await cmd.execute(backlogs)
-
 @bot.command(name='fq')
 async def fq(ctx, *args):
     return await ctx.send("/fq not implemented.")

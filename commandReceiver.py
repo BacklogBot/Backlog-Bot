@@ -135,7 +135,7 @@ class CommandReceiver:
         back = user + "'s Backlog"
         strng = border + "\n" + back + "\n" + border + "\n"
         lst = backlogs[username].catalog
-        i = 0
+        i = 1
         for game in lst:
             strng += "{}: {}\n".format(i, game.getName())
             i += 1    
@@ -154,7 +154,7 @@ class CommandReceiver:
     def helpBacklogRec(self, selected):
         functionality = {
             'newBacklog': "/newBacklog: Initializes backlog for a user",\
-            'addGame': "/addGame [any game title]: Adds a game to your backlog",\
+            'addGame': "/addGame: Adds a game to your backlog",\
             'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog",\
             'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list of 20 games",\
             'list': "/list [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided",\
