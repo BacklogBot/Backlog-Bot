@@ -75,7 +75,7 @@ async def addGame(ctx, *args):
 async def deleteGame(ctx, *args):
     #order a delGame object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx, args) 
-    cmd = cf.createNewCommand("delGame")
+    cmd = cf.createNewCommand("deleteGame")
     return await cmd.execute(backlogs)
 
 @bot.command(name='list')

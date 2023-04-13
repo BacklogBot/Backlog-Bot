@@ -21,8 +21,8 @@ class ConcreteCommandFactory(CommandFactory):
             return command.HelpBacklog(self.bot, self.ctx, self.cr, self.args)  
         elif command_name == "addGame":
             return command.AddGame(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "delGame":
-            return command.DelGame(self.bot, self.ctx, self.cr, self.args)
+        elif command_name == "deleteGame":
+            return command.DeleteGame(self.bot, self.ctx, self.cr, self.args)
         elif command_name == "list":
             return command.List(self.bot, self.ctx, self.cr, self.args)
         elif command_name == "suggestGames":
