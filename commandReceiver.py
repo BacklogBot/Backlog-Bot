@@ -65,10 +65,38 @@ class CommandReceiver:
 
         backlogs[username].addGame(game.Game(name, interest, avgTime, genres, timePlayed))	
 
-    def deleteGameRec(self, backlogs, name, username):    
+    def deleteGameRec(self, backlogs, name, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str name: A string of a user-entered name, representing the game the user wishes to delete from their backlog.
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            0 if game was removed from backlog
+            1 if game was not removed from backlog
+        modifies:
+            backlog[] backlogs: A list of all backlogs, across all bot users
+        Description: 
+            This function takes user-entered info and deletes the game in their backlog that corresponds to the info.
+        '''          
         return backlogs[username].deleteGame(name)
 
     def editGameRec(self, game, title, interest, avgTime, timePlayed, genres):
+        '''
+        arguments: 
+            game game: The game object that the user wishes to edit.
+            str title: A string of a user-entered name, representing the name of the game the user wishes to edit.
+            int interest: An int of a user-entered value, representing the user's interest in playing this current game, on a scale of 1 to 10.
+            str avgTime: A string of a user-entered time, representing the user's average play time for this game, in the form #:##. 
+            str timePlayed: A string of a user-entered time, representing the amount of time this user has played this game so far, in the form #:##. 
+            str[] genres: All the genres that classify this game.
+        returns: 
+            None
+        modifies:
+            game game: The game object that the user wishes to edit.
+        Description: 
+            This function takes user-entered info and associates it with an already-existing game in their backlog.
+        '''      
         game.changeName(title)
         game.changeInterest(interest)
         game.changeAvgTime(avgTime)
@@ -76,14 +104,49 @@ class CommandReceiver:
         game.replaceGenres(genres)
 
     def editBacklogTimeRec(self, backlogs, timeMsg, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str timeMsg: A string of a user-entered time, representing the amount of time this user has played this game so far, in the form #:##. 
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            None
+        modifies:
+            backlog[] backlogs: A list of all backlogs, across all bot users
+        Description: 
+            This function takes a user-entered time and updates their backlog's available play time to this new time.
+        '''     
         avgTime = extractTime(timeMsg.content)
         backlogs[username].avgAvailableTime = avgTime    
  
     def editBacklogGenRec(self, backlogs, genresMsg, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str genresMsg: A string of user-entered preferred genres, seperated by spaces.
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            None
+        modifies:
+            backlog[] backlogs: A list of all backlogs, across all bot users
+        Description: 
+            This function takes a user-entered string of genres, seperated by commas, and updates their backlog's preferred genres to this string.
+        '''            
         new_genres = set(genresMsg.content.split())
         backlogs[username].userGenres = new_genres
 
     def listRec(self, backlogs, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            str strng: A string representing a formatted response to the user. The response details all the games in their backlog.
+        modifies:
+            None
+        Description: 
+            This function lists a user's backlog games.
+        '''    
         border = "=" * 75
         user = username
         back = user + "'s Backlog"
@@ -96,6 +159,17 @@ class CommandReceiver:
         return strng
 
     def SuggestGamesRec(self, backlogs, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            str resp: A string representing a formatted response to the user. The response details all the backlog games that the user should play, from most to least likely to enjoy.
+        modifies:
+            None
+        Description: 
+            This function lists game suggestions for a user, based on their backlog.
+        '''      
         games_grades = []
         for game in backlogs[username].catalog:
             grade = backlogs[username].gradeGame(game)
@@ -107,6 +181,16 @@ class CommandReceiver:
         return resp
 
     def helpBacklogRec(self, selected):
+        '''
+        arguments: 
+            str selected: The command that the user has entered as an argument, representing the command they wish to see more info for
+        returns: 
+            str ret: A string that either tells the user their input was invalid or detailed information about the command they entered.
+        modifies:
+            None
+        Description: 
+            This command provides a detailed explanation of a user-entered command, if valid.
+        '''          
         functionality = {
             'newBacklog': "/newBacklog: Initializes backlog for a user",\
             'addGame': "/addGame: Adds a game to your backlog",\
@@ -116,8 +200,9 @@ class CommandReceiver:
             'editGame': "/editGame [any game title]: Edits the given game's information in the backlog",\
             'editBacklog': "/editBacklog: Edits preferences for the backlog, such as preferred genres and average play time"\
         }
-
+        ret = ""
         if selected not in functionality:
-            return "Unknown command, enter \"/helpBacklog\" for a comprehensive list of commands and their uses"
+            ret = "Unknown command, enter \"/helpBacklog\" for a comprehensive list of commands and their uses"
         else:
-            return functionality[selected]
+            ret = functionality[selected]
+        return ret

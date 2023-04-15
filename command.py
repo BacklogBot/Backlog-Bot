@@ -33,7 +33,7 @@ def extractTime(timeStr):
 
 class Command(ABC):
     cr = commandReceiver.CommandReceiver()
-        '''
+    '''
     arguments: 
         self.bot: The Discord bot itself
         self.ctx: Command context
@@ -271,12 +271,12 @@ class DeleteGame(Command):
         Otherwise, removes the game from the backlog and returns that it 
         was deleted.
     '''
-	async def execute(self, backlogs):
-		name = self.args[0]
-		if(self.cr.deleteGameRec(backlogs, name, self.username)): #if backlog could not find said game to remove
-			return await self.ctx.send("{} was not found in your backlog, {}".format(name, self.username))
-		else:
-			return await self.ctx.send("{} was removed from your backlog, {}".format(name, self.username))
+    async def execute(self, backlogs):
+        name = self.args[0]
+        if(self.cr.deleteGameRec(backlogs, name, self.username)): #if backlog could not find said game to remove
+            return await self.ctx.send("{} was not found in your backlog, {}".format(name, self.username))
+        else:
+            return await self.ctx.send("{} was removed from your backlog, {}".format(name, self.username))
 
 #May need to modify function to reduce coupling
 class EditGame(Command):
