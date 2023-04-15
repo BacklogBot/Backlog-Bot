@@ -246,6 +246,10 @@ class EditBacklog(Command):
                     await self.ctx.send("If you wish to edit your backlog's preferred genres, enter 1.\nIf you wish to edit your average available playing time, enter 2.")			
                     editMsg = await self.waitForResponse(self.checkUser)		
 
+        await self.ctx.send(self.username + "'s Backlog\n" + '='*15+"\n")  
+        await self.ctx.send("Genre(s): " + str(backlogs[self.username].userGenres))
+        await self.ctx.send("\nAverage Available Time: " + str(backlogs[self.username].avgAvailableTime)  )
+        await self.ctx.send('='*50+"\n")          
         return await self.ctx.send("Backlog Updated!")  
 
 class List(Command):

@@ -2,107 +2,61 @@ import backlog
 import game
 from game import Game
 
-""" 
-=====================================
-    THIS BLOCK IS FOR SUGGESTGAMES
-=====================================
-"""
-def printList(l):
-    for i in range(len(l)):
-        print(l[i].getName() + " with a score of " + str(l[i].getInterest()) ) 
-
-def get_pivot(input_list, starting, ending):  #uses median of three method!
-    middle = (starting+ending)//2  #get the average of the starting and ending indices
-    pivot = ending
-
-    #do a bunch of comparisons to choose the median item from starting, ending, and middle
-    if input_list[starting].getInterest() < input_list[middle].getInterest():
-        #if here, we already know starting < middle
-        if input_list[middle].getInterest() < input_list[ending].getInterest():
-            #starting < middle < ending
-            pivot = middle
-    elif input_list[starting].getInterest() < input_list[ending].getInterest():  
-        #if here, we already know middle < starting and now we have starting < ending...middle < starting < ending
-        pivot = starting
-    #if we end up never reassigning pivot, we know the middle and starting are not the median which leaves ending as the only possibility
-    return pivot
-
-def compare(game1, game2):
-    '''
-    basically, we consider interest to have a higher weight than time played, while do our comparisons
-    weight really comes into play when there needs to be tie-breakers
-    '''
-    if game1.getInterest() > game2.getInterest():
-        return 1
-    elif game1.getInterest() < game2.getInterest():
-        return -1    
-    else:
-        if game1.getTimePlayed() > game2.getTimePlayed():
-            return 1
-        elif game1.getTimePlayed() < game2.getTimePlayed():
-            return -1
-        else:
-            return 0            
-
-def partition(input_list, starting, ending):
-    pivot_index = get_pivot(input_list, starting, ending) #get the item we'll compare everything else to
-    pivot_value = input_list[pivot_index]
-    
-    #move the pivot item into the leftmost position
-    input_list[pivot_index] = input_list[starting]
-    input_list[starting] = pivot_value
-
-    border = starting
-    for i in range(starting, ending+1): 
-        if ( compare(input_list[i], input_list[starting]) == 1 ):
-            border += 1 
-
-            #swap the current item with the border item
-            temp = input_list[i]
-            input_list[i] = input_list[border]
-            input_list[border] = temp
-            #this ensures all items less than the pivot will be moved to the LHS of the list
-
-    #after going through the whole list, swap the starting (which is now the pivot) and the border
-    temp = input_list[starting]
-    input_list[starting] = input_list[border]
-    input_list[border] = temp
-
-    return border 
-
-def quicksort(input_list, starting, ending):
-    #if there's more than 1 item to be sorted   
-    if starting < ending: 
-        pivot = partition(input_list, starting, ending)
-        quicksort(input_list, starting, pivot-1)  #sort all items to the left of pivot
-        quicksort(input_list, pivot+1, ending)  #sort all items to the right of pivot
-
-def sortGames(input_list):  #uses quicksort to sort games
-    quicksort(input_list, 0, len(input_list)-1) 
-
-""" 
-================================================
-    THIS BLOCK IS FOR THE REST OF THE COMMANDS
-================================================
-"""
-
 def extractTime(timeStr):
-	#expected timeStr format = hours:minutes
-	time = timeStr.split(':')
-	if len(time) == 1 or int(time[1]) == 0: #we only have hours to deal with
-		return int(time[0])
-	else:
-		return int(time[0]) + int(time[1])/60.0
-
+    '''
+    arguments: 
+        str timeStr: The string of time that the user entered, in the form of #:##.
+    returns: 
+        int ret: The time provided, in hours.
+    modifies:
+        None
+    Description: 
+        This function parses and returns and some provided time, in hours.
+    '''
+    time = timeStr.split(':')
+    ret = -1
+    if len(time) == 1 or int(time[1]) == 0: #we only have hours to deal with
+        ret = int(time[0])
+    else:
+        ret = int(time[0]) + int(time[1])/60.0
+    return ret
 
 class CommandReceiver:
     def newBacklogRec(self, backlogs, genresMsg, timeMsg, username):
-        #add the backlog to the backlogs dictionary
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str genresMsg: A string of user-entered preferred genres, seperated by spaces. 
+            str timeMsg: A string of a user-entered time, representing available playing time, in the form #:##. 
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            None
+        modifies:
+            backlog[] backlogs: A list of all backlogs, across all bot users
+        Description: 
+            This function takes user-entered info and associates it with a new backlog.
+        '''
         genres =  set(genresMsg.content.split())
         avgTime = extractTime(timeMsg.content)
         backlogs[username] = backlog.Backlog(username, genres, avgTime)  
 
     def addGameRec(self, backlogs, timePlayedMsg, interestMsg, avgTimeMsg, genresMsg, nameMsg, username):
+        '''
+        arguments: 
+            backlog[] backlogs: A list of all backlogs, across all bot users
+            str timePlayedMsg: A string of a user-entered time, representing the amount of time this user has played this game so far, in the form #:##. 
+            str interestMsg: A string of a user-entered number, representing their interest in this game from 1 to 10.
+            str avgTimeMsg: A string of a user-entered time, representing the user's average play time for this game, in the form #:##. 
+            str genresMsg: A string of user-entered preferred genres, seperated by spaces.
+            str nameMsg: The name of this new game.
+            str username: The discord username of the user who invoked this comamnd.
+        returns: 
+            None
+        modifies:
+            backlog[] backlogs: A list of all backlogs, across all bot users
+        Description: 
+            This function takes user-entered info and associates it with a new game, which is then added into this user's backlog.
+        '''        
         name = nameMsg.content
         genres = set(genresMsg.content.split())
         avgTime = extractTime(avgTimeMsg.content)
@@ -111,7 +65,7 @@ class CommandReceiver:
 
         backlogs[username].addGame(game.Game(name, interest, avgTime, genres, timePlayed))	
 
-    def deleteGameRec(self, backlogs, name, username):
+    def deleteGameRec(self, backlogs, name, username):    
         return backlogs[username].deleteGame(name)
 
     def editGameRec(self, game, title, interest, avgTime, timePlayed, genres):
@@ -123,11 +77,11 @@ class CommandReceiver:
 
     def editBacklogTimeRec(self, backlogs, timeMsg, username):
         avgTime = extractTime(timeMsg.content)
-        backlogs[username].avgTime = avgTime    
+        backlogs[username].avgAvailableTime = avgTime    
  
-    def editBacklogGenRec(self, backlogs, timeMsg, username):
+    def editBacklogGenRec(self, backlogs, genresMsg, username):
         new_genres = set(genresMsg.content.split())
-        backlogs[username].genres = new_genres
+        backlogs[username].userGenres = new_genres
 
     def listRec(self, backlogs, username):
         border = "=" * 75
@@ -142,13 +96,14 @@ class CommandReceiver:
         return strng
 
     def SuggestGamesRec(self, backlogs, username):
-        l1 = backlogs[username].catalog
-        l2 = list(l1)  #make a shallow copy of the list. so by the end of this code block, l2 should be unchanged
-        sortGames(l1)
-        resp = "These are the games in your backlog that I think you should play, according to the preferences you have provided so far.\nnote: the higher the score, the more you'll enjoy it!\n\n"
-        #algo2.printList(l1)  print the list of games to the terminal
-        for game in l1:
-            resp += (game.getName() + " with a score of " + str(game.getInterest()) + "\n")     
+        games_grades = []
+        for game in backlogs[username].catalog:
+            grade = backlogs[username].gradeGame(game)
+            games_grades.append( (game,grade) )
+        
+        games_grades.sort(key = lambda a: a[1], reverse=True) #descending
+        for item in games_grades:
+            resp += (item[0] + " with a score of " + str(item[1]) + "\n")     
         return resp
 
     def helpBacklogRec(self, selected):
