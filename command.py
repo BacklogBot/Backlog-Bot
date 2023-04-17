@@ -183,6 +183,8 @@ class NewBacklog(Command):
 
         self.cr.newBacklogRec(backlogs, genresMsg, timeMsg, self.username)
 
+        await self.ctx.send("Preferred genres: {}\nAverage Available Time: {}".format(backlogs[self.username].userGenres, int(backlogs[self.username].avgAvailableTime)))
+
         #confirm backlog creation 
         return await self.ctx.send("{}'s backlog created!".format(self.username))
 
