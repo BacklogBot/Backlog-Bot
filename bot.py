@@ -49,8 +49,15 @@ async def on_error(event, *args, **kwargs):
             raise
 
 #COMMANDS--------------------------------------------------------------------------------------------------
+#   UI interface for the bot commands. Each command functions by creating an appropriate command object and
+# reciever. The reciever is used to create the new command object which is then executed. To see the details of
+# each command and its execution, refer to command.py.
 
-@bot.command(pass_context=True, name='helpBacklog') #needed to change name because help was already taken
+
+
+
+#UI interface for the helpBacklog command, 
+@bot.command(pass_context=True, name='helpBacklog') 
 async def helpBacklog(ctx, *args):
     #order a helpBacklog object from the command factory
     cf = factory.ConcreteCommandFactory(bot, ctx, args) 
