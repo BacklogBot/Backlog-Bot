@@ -26,7 +26,6 @@ bot = commands.Bot(command_prefix='/', intents = discord.Intents.all())
 
 backlogs = dict() #dictionary which uses the member name as a key and the backlog as a value
 """b = backlog.Backlog("hassium")
-"""b = backlog.Backlog("hassium")
 g1 = game.Game("Minecraft")
 g2 = game.Game("WOW")
 g3 = game.Game("Stellaris")
