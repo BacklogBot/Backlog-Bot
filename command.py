@@ -96,8 +96,6 @@ class Command(ABC):
             return False
         elif(not time[1].isdigit()): #ensure the number of minutes is an integer 
             return False
-        elif((int(time[0]) >= 24) or (int(time[1]) >= 60)): #ensure the time is below the maximum 
-            return False
         else:
             return (True and self.checkUser(msg)) 
     '''
