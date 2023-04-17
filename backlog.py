@@ -198,9 +198,15 @@ class Backlog:
 
     '''
     def gradeGame(self, game):
-        score=game.getInterest()*100
-        matchingGenres=len(game.getGenres().intersection(self.userGenres()))
-        score+=matchingGenres*100
-        score-=game.getTimePlayed()
-        score-=min(0,game.getAvgTime()-self.avgAvailableTime)*600
-        return score
+        score=game.getInterest()*10
+        
+        #matchingGenres=len(game.getGenres().intersection(self.userGenres()))
+        game_genres = game.getGenres()
+        preferred_genres = self.userGenres
+        matching_genres = game_genres.intersection(preferred_genres)
+        matching_genres_len = len(matching_genres)
+        
+        score += matching_genres_len*100
+        score -= game.getTimePlayed()
+        score -= min(0,game.getAvgTime()-self.avgAvailableTime)*60
+        return score//10

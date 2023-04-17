@@ -24,9 +24,16 @@ bot = commands.Bot(command_prefix='/', intents = discord.Intents.all())
 
 backlogs = dict() #dictionary which uses the member name as a key and the backlog as a value
 b = backlog.Backlog("hassium")
-g1 = game.Game("Mario Man")
+g1 = game.Game("Mario Man", 4, 7)
+g2 = game.Game("Zelda Link", 9, 1) #wanna play this the most
+g3 = game.Game("Smash Smash Bros", 1, 60) #wanna play this the least
+
 b.addGame(g1)
+b.addGame(g2)
+b.addGame(g3)
+
 backlogs["hassium"] = b
+#test suggest, list, deleting and adding
 
 @bot.event
 async def on_ready():
