@@ -202,10 +202,10 @@ class CommandReceiver:
         functionality = {
             'newBacklog': "/newBacklog: Initializes backlog for a user",\
             'addGame': "/addGame: Adds a game to your backlog",\
-            'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog",\
+            'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog. If title is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
             'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list with a max of 20 games",\
             'list': "/list [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided",\
-            'editGame': "/editGame [any game title]: Edits the given game's information in the backlog",\
+            'editGame': "/editGame [any game title]: Edits the given game's information in the backlog. If title is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
             'editBacklog': "/editBacklog: Edits preferences for the backlog, such as preferred genres and average play time"\
         }
         ret = ""

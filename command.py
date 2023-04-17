@@ -173,7 +173,7 @@ class NewBacklog(Command):
     async def execute(self, backlogs):
         #check to see if the user already has a backlog
         if self.username in backlogs:
-            return await ctx.send('You already have an existing backlog.') 
+            return await self.ctx.send('You already have an existing backlog.') 
 
         #prompt the user for their list of prefered genres
         await self.ctx.send("Please enter a list of your prefered genres, seperated by spaces.")
@@ -244,11 +244,11 @@ class AddGame(Command):
             genresMsg = await self.waitForResponse(self.checkUser)
 
             #prompt the user for the estimated time of the game 
-            await self.ctx.send("Please enter how long the games take on average in hours in the format of hours:00.")
+            await self.ctx.send("Please enter how long the games take on average in hours in the format of hours:minutes.")
             avgTimeMsg = await self.waitForResponse(self.checkTimeFormat)
 
             #prompt the user for the amount of time played
-            await self.ctx.send("Please enter how long you have already played this game in hours in the format of hours:00.\nEnter 0:00 if you have yet to play it.")
+            await self.ctx.send("Please enter how long you have already played this game in hours in the format of hours:minutes.\nEnter 0:00 if you have yet to play it.")
             timePlayedMsg = await self.waitForResponse(self.checkTimeFormat)
 
             #prompt the user for the their current interest in the game 
@@ -301,8 +301,7 @@ class EditGame(Command):
             to do so, simply type "/newBacklog in the chat. For further help enter /helpBacklog, then enter newBacklog.'.format(self.username))
 
         game_name = self.args[0]
-        game_id = self.args[1]
-        game = backlogs[self.username].getGameFromID(game_id) #The game being edited
+        game = backlogs[self.username].getGame(game_name) #The game being edited
         if(game == None): #if backlog could not find said game to edit
             return await self.ctx.send("{} was not found in your backlog, {}".format(game_name, self.username))
         
@@ -316,11 +315,11 @@ class EditGame(Command):
         editing = True
         while(editing):#loop to edit multiple attributes
             await self.ctx.send("Please type which attribute you would like to change.\n\n\
-            - Title\n\
-            - Genres\n\
-            - Average Time of Completion\n\
-            - Time Played\n\
-            - Initial Interest")
+            -Title\n\
+            -Genres\n\
+            -Average Time of Completion\n\
+            -Time Played\n\
+            -Initial Interest")
 
             change = (await self.waitForResponse(self.checkUser)).content
             if (change.lower()=="title"):
@@ -350,8 +349,8 @@ class EditGame(Command):
             await self.ctx.send("Is this information correct? Type yes or no.\n\n\
             -Game: {}\n\
             -Genres: {}\n\
-            -Average Time of Completion: {}\n\
-            -Time Played: {}\n\
+            -Average Time of Completion: {} hours\n\
+            -Time Played: {} hours\n\
             -Initial Interest: {}".format(title, genres, avgTime, timePlayed, interest))
             response = (await self.waitForResponse(self.checkUser)).content
             if(response.lower()=="yes" or response.lower()=="y"):
