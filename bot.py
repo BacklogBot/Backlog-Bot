@@ -4,8 +4,10 @@ import discord #pip install discord
 from dotenv import load_dotenv #pip install python-env
 from discord.ext import commands
 import factory
+"""
 import backlog
 import game
+"""
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -23,7 +25,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 bot = commands.Bot(command_prefix='/', intents = discord.Intents.all())
 
 backlogs = dict() #dictionary which uses the member name as a key and the backlog as a value
-b = backlog.Backlog("hassium")
+"""b = backlog.Backlog("hassium")
 g1 = game.Game("Minecraft")
 g2 = game.Game("WOW")
 g3 = game.Game("Stellaris")
@@ -31,7 +33,11 @@ b.addGame(g1)
 b.addGame(g2)
 b.addGame(g3)
 backlogs["hassium"] = b
+"""
 
+@bot.event
+async def on_ready():
+    print(f'{bot.user.name} has connected to Discord!')
 
 
 @bot.event
