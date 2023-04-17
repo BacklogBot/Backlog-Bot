@@ -466,7 +466,7 @@ class HelpBacklog(Command):
 
         if(self.args == None or len(self.args) == 0):
             await self.ctx.send("Here is a list of commands. Enter /helpBacklog and a command name for a description of the command's functionality.)\n")
-            await self.ctx.send("NewBacklog\nAddGame\nDeleteGame\nEditGame\nEditBacklog\nList\nSuggestGames")
+            await self.ctx.send("newBacklog\naddGame\ndeleteGame\neditGame\neditBacklog\nlist\nsuggestGames")
             return
         else:
             return await self.ctx.send( self.cr.helpBacklogRec(self.args[0]) )
