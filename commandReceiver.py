@@ -158,7 +158,7 @@ class CommandReceiver:
             i += 1    
         return strng
 
-    def SuggestGamesRec(self, backlogs, username):
+    def SuggestGamesRec(self, backlogs, username, max_to_list = 20):
         '''
         arguments: 
             backlog[] backlogs: A list of all backlogs, across all bot users
@@ -170,14 +170,22 @@ class CommandReceiver:
         Description: 
             This function lists game suggestions for a user, based on their backlog.
         '''      
+        #get a list of games coupled with their grades
         games_grades = []
         for game in backlogs[username].catalog:
             grade = backlogs[username].gradeGame(game)
             games_grades.append( (game,grade) )
         
+        #sort from highest to lowest scored game
         games_grades.sort(key = lambda a: a[1], reverse=True) #descending
-        for item in games_grades:
-            resp += (item[0] + " with a score of " + str(item[1]) + "\n")     
+        
+        #create a message containing the results to return
+        resp = ""
+        if max_to_list > len(games_grades):
+            max_to_list = len(games_grades)
+        for i in range(max_to_list):
+            tup = games_grades[i]
+            resp += (tup[0].getName() + " with a score of " + str(tup[1]) + "\n")     
         return resp
 
     def helpBacklogRec(self, selected):
@@ -195,7 +203,7 @@ class CommandReceiver:
             'newBacklog': "/newBacklog: Initializes backlog for a user",\
             'addGame': "/addGame: Adds a game to your backlog",\
             'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog",\
-            'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list of 20 games",\
+            'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list with a max of 20 games",\
             'list': "/list [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided",\
             'editGame': "/editGame [any game title]: Edits the given game's information in the backlog",\
             'editBacklog': "/editBacklog: Edits preferences for the backlog, such as preferred genres and average play time"\

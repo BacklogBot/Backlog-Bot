@@ -445,7 +445,10 @@ class SuggestGames(Command):
         if self.username not in backlogs:
             return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
-            return await self.ctx.send(self.cr.SuggestGamesRec(backlogs, self.username))
+            if len(self.args) > 0: #means we have a specfific number of games to list
+                return await self.ctx.send(self.cr.SuggestGamesRec(backlogs, self.username, int(self.args[0])))
+            else: #means we use the default which is 20
+                return await self.ctx.send(self.cr.SuggestGamesRec(backlogs, self.username))
 
 
 class HelpBacklog(Command):
