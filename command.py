@@ -232,7 +232,7 @@ class AddGame(Command):
             return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             #prompt the user for the game's name
-            await self.ctx.send("Please enter the game's name.")
+            await self.ctx.send("Please enter the game's name. Surround the title in quotation marks if it's more than one word.")
             nameMsg = await self.waitForResponse(self.checkUser)
 
             while self.duplicateCheck(backlogs[self.username], nameMsg) == -1:

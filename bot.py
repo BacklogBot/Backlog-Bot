@@ -44,7 +44,7 @@ async def on_ready():
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(
-        f'Hi {member.name}, I see you are a new user.'
+        f'Hi {member.name}, I see you are a new user.\n If you want to input a title or genre with more than two words, please surround them in quotation marks.'
     )
 
 @bot.event
