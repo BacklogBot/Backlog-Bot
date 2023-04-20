@@ -201,12 +201,12 @@ class Backlog:
         score=game.getInterest()*100
         
         #matchingGenres=len(game.getGenres().intersection(self.userGenres()))
-        game_genres = game.getGenres()
-        preferred_genres = self.userGenres
-        matching_genres = game_genres.intersection(preferred_genres)
-        matching_genres_len = len(matching_genres)
+        gamesGenres = game.getGenres()
+        preferredGenres = self.userGenres
+        matchingGenres = gamesGenres.intersection(preferredGenres)
+        matchingGenresLen = len(matchingGenres)
         
-        score += matching_genres_len*100
+        score += matchingGenresLen*100
         score -= game.getTimePlayed()
         score -= min(0,game.getAvgTime()-self.avgAvailableTime)*600
         return score

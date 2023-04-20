@@ -132,8 +132,8 @@ class CommandReceiver:
         Description: 
             This function takes a user-entered string of genres, seperated by commas, and updates their backlog's preferred genres to this string.
         '''            
-        new_genres = set(genresMsg.content.split())
-        backlogs[username].userGenres = new_genres
+        newGenres = set(genresMsg.content.split())
+        backlogs[username].userGenres = newGenres
 
     def listRec(self, backlogs, username):
         '''
@@ -158,7 +158,7 @@ class CommandReceiver:
             i += 1    
         return strng
 
-    def SuggestGamesRec(self, backlogs, username, max_to_list = 20):
+    def SuggestGamesRec(self, backlogs, username, maxToList = 20):
         '''
         arguments: 
             backlog[] backlogs: A list of all backlogs, across all bot users
@@ -171,20 +171,20 @@ class CommandReceiver:
             This function lists game suggestions for a user, based on their backlog.
         '''      
         #get a list of games coupled with their grades
-        games_grades = []
+        gamesGrades = []
         for game in backlogs[username].catalog:
             grade = backlogs[username].gradeGame(game)
-            games_grades.append( (game,grade) )
+            gamesGrades.append( (game,grade) )
         
         #sort from highest to lowest scored game
-        games_grades.sort(key = lambda a: a[1], reverse=True) #descending
+        gamesGrades.sort(key = lambda a: a[1], reverse=True) #descending
         
         #create a message containing the results to return
         resp = ""
-        if max_to_list > len(games_grades):
-            max_to_list = len(games_grades)
-        for i in range(max_to_list):
-            tup = games_grades[i]
+        if maxToList > len(gamesGrades):
+            maxToList = len(gamesGrades)
+        for i in range(maxToList):
+            tup = gamesGrades[i]
             resp += (tup[0].getName() + " with a score of " + str(tup[1]) + "\n")     
         return resp
 

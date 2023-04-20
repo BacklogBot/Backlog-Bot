@@ -39,10 +39,10 @@ class CommandFactory(ABC):
         pass
 
 class ConcreteCommandFactory(CommandFactory):
-    def createNewCommand(self, command_name):  
+    def createNewCommand(self, commandName):  
         '''
         arguments: 
-            str command_name: The name of the command to be created
+            str commandName: The name of the command to be created
         returns: 
             CommandFactory self: a new Command object
         modifies:
@@ -50,21 +50,21 @@ class ConcreteCommandFactory(CommandFactory):
         Description: 
             This function creates and returns and new Command object.
         '''
-        if command_name == "newBacklog":
+        if commandName == "newBacklog":
             return command.NewBacklog(self.bot, self.ctx, self.cr, self.args)  #create command and associate it with receiver
-        elif command_name == "helpBacklog":
+        elif commandName == "helpBacklog":
             return command.HelpBacklog(self.bot, self.ctx, self.cr, self.args)  
-        elif command_name == "addGame":
+        elif commandName == "addGame":
             return command.AddGame(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "deleteGame":
+        elif commandName == "deleteGame":
             return command.DeleteGame(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "list":
+        elif commandName == "list":
             return command.List(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "suggestGames":
+        elif commandName == "suggestGames":
             return command.SuggestGames(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "editGame":
+        elif commandName == "editGame":
             return command.EditGame(self.bot, self.ctx, self.cr, self.args)
-        elif command_name == "editBacklog":
+        elif commandName == "editBacklog":
             return command.EditBacklog(self.bot, self.ctx, self.cr, self.args)  
-        elif command_name == "copyGame":
+        elif commandName == "copyGame":
             return command.CopyGame(self.bot, self.ctx, self.cr, self.args)

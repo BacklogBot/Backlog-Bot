@@ -205,10 +205,10 @@ class AddGame(Command):
     '''  
     def duplicateCheck(self, backlog, nameMsg):
         for i in range(len(backlog.catalog)):
-            current_name = (backlog.catalog[i]).getName()
+            currentName = (backlog.catalog[i]).getName()
             name = nameMsg.content
             
-            if current_name == name:
+            if currentName == name:
                 return -1
         return 1
 
@@ -300,10 +300,10 @@ class EditGame(Command):
             return await self.ctx.send('I am sorry {}, it seems that you have not yet created a backlog, if you would \
             to do so, simply type "/newBacklog in the chat. For further help enter /helpBacklog, then enter newBacklog.'.format(self.username))
 
-        game_name = self.args[0]
-        game = backlogs[self.username].getGame(game_name) #The game being edited
+        gameName = self.args[0]
+        game = backlogs[self.username].getGame(gameName) #The game being edited
         if(game == None): #if backlog could not find said game to edit
-            return await self.ctx.send("{} was not found in your backlog, {}".format(game_name, self.username))
+            return await self.ctx.send("{} was not found in your backlog, {}".format(gameName, self.username))
         
         #NOTE: cant pass this block off to the receiver because this is how we save the user requested attribute to change
         title = game.getName()#technically not needed
