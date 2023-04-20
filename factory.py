@@ -3,12 +3,12 @@ import commandReceiver
 import command
 
 class CommandFactory(ABC):
-    def __init__(self, input_bot, input_ctx, input_args=None):
+    def __init__(self, inputBot, inputCtx, inputArgs=None):
         '''
         arguments: 
-            bot input_bot: The bot that is ordering from this factory
-            context input_ctx: The context of the command entered
-            str[] input_args: All the arguments provided by the user in their command call
+            bot inputBot: The bot that is ordering from this factory
+            context inputCtx: The context of the command entered
+            str[] inputArgs: All the arguments provided by the user in their command call
         returns: 
             CommandFactory self: a new CommandFactory object
         modifies:
@@ -20,9 +20,9 @@ class CommandFactory(ABC):
             This function creates and returns and new CommandFactory object.
         '''
         self.cr = commandReceiver.CommandReceiver() #create receiver 
-        self.bot = input_bot
-        self.ctx = input_ctx
-        self.args = input_args
+        self.bot = inputBot
+        self.ctx = inputCtx
+        self.args = inputArgs
 
     @abstractmethod
     def createNewCommand(self):  #factory method

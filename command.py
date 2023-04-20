@@ -47,13 +47,13 @@ class Command(ABC):
     Description:
         Constructor for the Command class.
     '''
-    def __init__(self, bot, ctx, com_rec, args=None):
+    def __init__(self, bot, ctx, comRec, args=None):
         self.bot = bot
         self.ctx = ctx #command context 
         self.username = ctx.message.author.name
         self.userID = int(ctx.author.id)
         self.args = args #command arguments 
-        self.cr = com_rec  #receiver for this class
+        self.cr = comRec  #receiver for this class
      
     '''
     arguments: 
