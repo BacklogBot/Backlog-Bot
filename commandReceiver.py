@@ -200,13 +200,26 @@ class CommandReceiver:
             This command provides a detailed explanation of a user-entered command, if valid.
         '''          
         functionality = {
-            'newBacklog': "/newBacklog: Initializes backlog for a user",\
-            'addGame': "/addGame: Adds a game to your backlog",\
-            'deleteGame': "/deleteGame [any game title]: Removes the game from your backlog. If title is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
-            'suggestGames': "/suggestGames [number of games]: Recommends up to the provided number of games. Use the command without a number for a default list with a max of 20 games",\
-            'list': "/list [number of games]: Lists up to the provided number of games in the backlog in no particular order, or all of them if no number is provided",\
-            'editGame': "/editGame [any game title]: Edits the given game's information in the backlog. If title is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
-            'editBacklog': "/editBacklog: Edits preferences for the backlog, such as preferred genres and average play time"\
+            'newBacklog': "/newBacklog: Generates a new backlog for a user which tracks the user's preferences in terms of veidogame genres and the average amounto time.\
+daily that they have to play games.",\
+
+            'addGame': "/addGame: Adds a game to your backlog. When adding a game, the user will be prompted for the game's name, genres, average time to completion, as well \
+as how many hours they have alrady played the game and their current interest in it out of 10.",\
+
+            'deleteGame': "/deleteGame {game title}: Removes the game with the matching title from your backlog. If the title of the game is seperated by spaces, enclose the title \
+in quotes. For example: 'Super Mario'.",\
+
+            'suggestGames': "/suggestGames {number of games}: Recommends up to the provided number of games. Using the command without specifying a number of games will automatically \
+display up to the first 20 games in the user's backlog. Games will be listed alongside their calculated score in descending order. A higher score is indicative \
+of games which more closely match the user's specified preferences and vise versa.",\
+
+            'list': "/list {number of games}: Lists up to the provided number of games in the backlog in no particular order. If no number of games is specified, then all of the games \
+in the user's backlog are listed.",\
+
+            'editGame': "/editGame {game title}: Allows the user to edit the given game's information in the backlog. This includes the game's title, genres, average time to completion, time played, \
+and user interest. If title of the game is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
+
+            'editBacklog': "/editBacklog: Allows the users to edit their backlog's recorded preferences, including the user's prefered genres and daily average available time."\
         }
         ret = ""
         if selected not in functionality:
