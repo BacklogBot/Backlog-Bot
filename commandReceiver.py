@@ -213,8 +213,7 @@ in quotes. For example: 'Super Mario'.",\
 display up to the first 20 games in the user's backlog. Games will be listed alongside their calculated score in descending order. A higher score is indicative \
 of games which more closely match the user's specified preferences and vise versa.",\
 
-            'list': "/list {number of games}: Lists up to the provided number of games in the backlog in no particular order. If no number of games is specified, then all of the games \
-in the user's backlog are listed.",\
+            'list': "/list: Lists all of the games in your backlog unordered.",\
 
             'editGame': "/editGame {game title}: Allows the user to edit the given game's information in the backlog. This includes the game's title, genres, average time to completion, time played, \
 and user interest. If title of the game is seperated by spaces, enclose the title in quotes. For example: 'Super Mario'.",\
