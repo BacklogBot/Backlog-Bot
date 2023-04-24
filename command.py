@@ -183,7 +183,7 @@ class NewBacklog(Command):
 
         self.cr.newBacklogRec(backlogs, genresMsg, timeMsg, self.username)
 
-        await self.ctx.send("Preferred genres: {}\nAverage Available Time: {}".format(backlogs[self.username].userGenres, int(backlogs[self.username].avgAvailableTime)))
+        await self.ctx.send("Preferred genres: {}\nAverage Available Time: {} hours".format(backlogs[self.username].userGenres, int(backlogs[self.username].avgAvailableTime)))
 
         #confirm backlog creation 
         return await self.ctx.send("{}'s backlog created!".format(self.username))
@@ -232,7 +232,7 @@ class AddGame(Command):
             return await self.ctx.send("You have yet to create a backlog, {}. Enter /helpBacklog for more info.".format(self.username))
         else:
             #prompt the user for the game's name
-            await self.ctx.send("Please enter the game's name. Surround the title in quotation marks if it's more than one word.")
+            await self.ctx.send("Please enter the game's name.")
             nameMsg = await self.waitForResponse(self.checkUser)
 
             while self.duplicateCheck(backlogs[self.username], nameMsg) == -1:
